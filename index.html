@@ -1,0 +1,3349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Enat – Pregnancy Companion for Ethiopian Mothers</title>
+<style>
+:root {
+  --bg: #fff8f5;
+  --card: #ffffff;
+  --text: #241815;
+  --muted: #6f5952;
+  --line: #f1ded6;
+  --brand: #c2410c;
+  --brand-hover: #9a3412;
+  --brand-light: #ffedd5;
+  --brand-soft: #fff7ed;
+  --red: #b91c1c;
+  --red-bg: #fee2e2;
+  --red-border: #fca5a5;
+  --amber: #b45309;
+  --amber-bg: #fef3c7;
+  --amber-border: #fde68a;
+  --green: #15803d;
+  --green-bg: #dcfce7;
+  --green-border: #86efac;
+  --shadow: 0 4px 14px rgba(194, 65, 12, 0.08);
+  --shadow-lg: 0 10px 25px rgba(36, 24, 21, 0.12);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a1210;
+    --card: #261b17;
+    --text: #f7ede8;
+    --muted: #bfa79f;
+    --line: #412f29;
+    --brand: #f97316;
+    --brand-hover: #fb923c;
+    --brand-light: #3d251d;
+    --brand-soft: #2d1c16;
+    --red: #f87171;
+    --red-bg: #450a0a;
+    --red-border: #7f1d1d;
+    --amber: #fbbf24;
+    --amber-bg: #451a03;
+    --amber-border: #78350f;
+    --green: #4ade80;
+    --green-bg: #052e16;
+    --green-border: #14532d;
+    --shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.6);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #1a1210;
+  --card: #261b17;
+  --text: #f7ede8;
+  --muted: #bfa79f;
+  --line: #412f29;
+  --brand: #f97316;
+  --brand-hover: #fb923c;
+  --brand-light: #3d251d;
+  --brand-soft: #2d1c16;
+  --red: #f87171;
+  --red-bg: #450a0a;
+  --red-border: #7f1d1d;
+  --amber: #fbbf24;
+  --amber-bg: #451a03;
+  --amber-border: #78350f;
+  --green: #4ade80;
+  --green-bg: #052e16;
+  --green-border: #14532d;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans Ethiopic", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  padding-bottom: 88px;
+}
+
+.app-container {
+  max-width: 520px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--bg);
+  position: relative;
+  box-shadow: 0 0 40px rgba(0,0,0,0.06);
+}
+
+/* Header */
+header {
+  padding: 14px 16px 10px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #c2410c, #ea580c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 8px rgba(194, 65, 12, 0.25);
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--brand);
+  line-height: 1.2;
+}
+
+.brand-subtitle {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 500;
+  margin-top: 1px;
+}
+
+.lang-selector {
+  display: flex;
+  background: var(--bg);
+  padding: 2px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  gap: 2px;
+}
+
+.lang-btn {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lang-btn.active {
+  background: var(--brand);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(194,65,12,0.2);
+}
+
+/* Simulation & Offline Notice Banner */
+.status-banner {
+  padding: 6px 14px;
+  font-size: 0.76rem;
+  background: var(--brand-light);
+  color: var(--brand);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  font-weight: 500;
+}
+
+.status-banner.offline {
+  background: var(--amber-bg);
+  color: var(--amber);
+  border-bottom-color: var(--amber-border);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+.status-banner.offline .status-dot {
+  background: #f59e0b;
+}
+
+.toggle-offline-btn {
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Role Selector Pill */
+.role-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px 2px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.role-btn {
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--muted);
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+}
+
+.role-btn.active {
+  background: var(--brand-soft);
+  color: var(--brand);
+  border-color: var(--brand);
+  font-weight: 600;
+}
+
+/* Top Horizontal Nav */
+nav.tab-nav {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 8px 14px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  scrollbar-width: none;
+}
+nav.tab-nav::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+  padding: 7px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  background: var(--brand);
+  color: #ffffff;
+  border-color: var(--brand);
+  box-shadow: 0 2px 6px rgba(194,65,12,0.25);
+}
+
+.tab-btn .badge {
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.25);
+}
+
+/* Main Content Area */
+main {
+  padding: 14px 16px;
+}
+
+/* Cards & UI Blocks */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+
+.card-title {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.screen-header {
+  margin-bottom: 14px;
+}
+
+.screen-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0 0 4px;
+  color: var(--brand);
+  line-height: 1.25;
+}
+
+.screen-desc {
+  font-size: 0.84rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Tag / Badge */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--brand-light);
+  color: var(--brand);
+}
+
+.tag.red {
+  background: var(--red-bg);
+  color: var(--red);
+  border: 1px solid var(--red-border);
+}
+
+.tag.amber {
+  background: var(--amber-bg);
+  color: var(--amber);
+  border: 1px solid var(--amber-border);
+}
+
+.tag.green {
+  background: var(--green-bg);
+  color: var(--green);
+  border: 1px solid var(--green-border);
+}
+
+.tag.neutral {
+  background: var(--bg);
+  color: var(--muted);
+  border: 1px solid var(--line);
+}
+
+/* Buttons */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  border: none;
+  background: var(--brand);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 12px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(194, 65, 12, 0.2);
+  margin-top: 8px;
+}
+
+.btn:hover { background: var(--brand-hover); }
+.btn:active { transform: scale(0.98); }
+
+.btn.red {
+  background: var(--red);
+  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3);
+}
+.btn.red:hover { background: #991b1b; }
+
+.btn.alt {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+.btn.alt:hover { background: var(--bg); border-color: var(--brand); color: var(--brand); }
+
+.btn.green {
+  background: var(--green);
+  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.2);
+}
+
+.btn.sm {
+  padding: 7px 12px;
+  font-size: 0.8rem;
+  border-radius: 8px;
+  width: auto;
+}
+
+/* Yes / No Danger Sign Buttons */
+.yn-row {
+  display: flex;
+  gap: 10px;
+  margin: 14px 0 6px;
+}
+
+.yn-btn {
+  flex: 1;
+  padding: 16px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border-radius: 14px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.yn-btn.yes {
+  background: var(--red-bg);
+  color: var(--red);
+  border-color: var(--red-border);
+}
+.yn-btn.yes:hover {
+  background: var(--red);
+  color: white;
+}
+
+.yn-btn.no {
+  background: var(--green-bg);
+  color: var(--green);
+  border-color: var(--green-border);
+}
+.yn-btn.no:hover {
+  background: var(--green);
+  color: white;
+}
+
+/* Forms & Inputs */
+label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 4px;
+  margin-top: 10px;
+}
+
+input[type="text"], input[type="tel"], input[type="date"], select, textarea {
+  width: 100%;
+  padding: 11px 13px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.92rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--brand);
+}
+
+/* Checkbox Row */
+.check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+  user-select: none;
+}
+
+.check-row:first-of-type { border-top: none; }
+
+.check-row input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--brand);
+  margin-top: 2px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.check-row.done {
+  opacity: 0.65;
+  text-decoration: line-through;
+}
+
+.check-text {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Progress bar */
+.progress-bar-wrap {
+  height: 8px;
+  background: var(--line);
+  border-radius: 99px;
+  overflow: hidden;
+  margin: 10px 0 14px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #c2410c, #ea580c);
+  border-radius: 99px;
+  transition: width 0.3s ease;
+}
+
+/* Urgent Alert Box */
+.urgent-banner {
+  background: var(--red-bg);
+  border: 2px solid var(--red-border);
+  border-radius: 14px;
+  padding: 18px 16px;
+  margin-bottom: 16px;
+  text-align: center;
+  animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(185, 28, 28, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(185, 28, 28, 0); }
+}
+
+.urgent-icon {
+  font-size: 2.2rem;
+  margin-bottom: 6px;
+}
+
+.urgent-headline {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--red);
+  margin: 0 0 6px;
+}
+
+.urgent-text {
+  font-size: 0.9rem;
+  color: var(--red);
+  font-weight: 500;
+  margin: 0 0 14px;
+}
+
+/* Disclaimer / Clinical review notice */
+.notice-box {
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-border);
+  color: var(--amber);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.clinical-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* SOS Fixed Bottom Bar */
+#sos-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  z-index: 50;
+  box-shadow: 0 -4px 15px rgba(0,0,0,0.06);
+}
+
+.sos-inner {
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  gap: 8px;
+}
+
+.sos-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--red);
+  color: #ffffff;
+  border: none;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(185, 28, 28, 0.3);
+}
+
+.sos-call-btn {
+  flex: 0 0 auto;
+  background: #7f1d1d;
+  color: #ffffff;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Guided Demo Flow Tour Modal / Drawer */
+.tour-btn {
+  background: var(--brand-soft);
+  color: var(--brand);
+  border: 1px solid var(--brand);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tour-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 100;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+}
+.tour-modal.open { display: flex; }
+
+.tour-card {
+  background: var(--card);
+  border-radius: 18px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 20px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+}
+
+.tour-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bg);
+  margin-bottom: 8px;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  transition: all 0.2s;
+}
+.tour-step:hover {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+}
+.tour-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Audio Player Visualizer */
+.audio-player-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg);
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  margin: 12px 0;
+}
+
+.audio-wave {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 24px;
+}
+
+.audio-bar {
+  width: 4px;
+  height: 8px;
+  background: var(--brand);
+  border-radius: 2px;
+  transition: height 0.2s;
+}
+.audio-bar.playing {
+  animation: wave 1s infinite alternate ease-in-out;
+}
+.audio-bar:nth-child(2) { animation-delay: 0.2s; }
+.audio-bar:nth-child(3) { animation-delay: 0.4s; }
+.audio-bar:nth-child(4) { animation-delay: 0.1s; }
+.audio-bar:nth-child(5) { animation-delay: 0.3s; }
+
+@keyframes wave {
+  0% { height: 6px; }
+  100% { height: 22px; }
+}
+
+/* USSD Phone Simulation */
+.ussd-phone {
+  background: #1e293b;
+  color: #38bdf8;
+  font-family: monospace;
+  padding: 16px;
+  border-radius: 14px;
+  margin: 14px 0;
+  border: 2px solid #334155;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.ussd-screen {
+  background: #0f172a;
+  padding: 14px;
+  border-radius: 8px;
+  min-height: 110px;
+  font-size: 0.88rem;
+  white-space: pre-wrap;
+  color: #4ade80;
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+.ussd-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.ussd-key {
+  background: #334155;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+}
+.ussd-key:hover { background: #475569; }
+
+/* Voice Wave Recording */
+.voice-rec-box {
+  background: var(--red-bg);
+  border: 1px dashed var(--red-border);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  margin: 12px 0;
+}
+.voice-wave {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 30px;
+  margin-bottom: 8px;
+}
+.voice-wave-bar {
+  width: 5px;
+  height: 10px;
+  background: var(--red);
+  border-radius: 99px;
+  animation: voicePulse 0.8s infinite ease-in-out alternate;
+}
+.voice-wave-bar:nth-child(2) { animation-delay: 0.2s; height: 22px; }
+.voice-wave-bar:nth-child(3) { animation-delay: 0.4s; height: 16px; }
+.voice-wave-bar:nth-child(4) { animation-delay: 0.1s; height: 26px; }
+.voice-wave-bar:nth-child(5) { animation-delay: 0.3s; height: 12px; }
+
+@keyframes voicePulse {
+  0% { transform: scaleY(0.4); }
+  100% { transform: scaleY(1.3); }
+}
+
+/* Health Worker Table */
+.hw-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin: 10px 0;
+}
+.hw-table th {
+  text-align: left;
+  padding: 8px 6px;
+  border-bottom: 2px solid var(--line);
+  color: var(--muted);
+  font-weight: 600;
+}
+.hw-table td {
+  padding: 10px 6px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+/* Accordion FAQs */
+details {
+  border-top: 1px solid var(--line);
+  padding: 10px 0;
+}
+details:first-of-type { border-top: none; }
+summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.92rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after {
+  content: "＋";
+  font-weight: bold;
+  color: var(--brand);
+}
+details[open] summary::after { content: "−"; }
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Header -->
+  <header>
+    <div class="header-top">
+      <div class="brand-wrap" onclick="navTo('home')">
+        <div class="brand-icon">🤰</div>
+        <div>
+          <h1>Enat <span style="font-weight:400; font-size: 1.05rem;">እናት</span></h1>
+          <div class="brand-subtitle" id="hdr-sub">Ethiopian Maternal Health Companion</div>
+        </div>
+      </div>
+      
+      <div class="lang-selector">
+        <button class="lang-btn" id="btn-lang-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btn-lang-am" onclick="setLang('am')">አማ</button>
+        <button class="lang-btn" id="btn-lang-om" onclick="setLang('om')">OM</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Simulated Offline Mode & Prototype Status Bar -->
+  <div class="status-banner" id="status-banner">
+    <div class="status-badge">
+      <span class="status-dot"></span>
+      <span id="status-text">🟢 Online · Demo Prototype</span>
+    </div>
+    <div style="display:flex; gap:6px; align-items:center;">
+      <button class="tour-btn" onclick="openTour()">✨ Demo Flow (11 Steps)</button>
+      <button class="toggle-offline-btn" onclick="toggleOfflineSim()">📶 Toggle Offline</button>
+    </div>
+  </div>
+
+  <!-- Role Selector -->
+  <div class="role-bar">
+    <span style="font-size: 0.72rem; color: var(--muted); font-weight:600;">Role:</span>
+    <button class="role-btn active" id="role-mother" onclick="setRole('mother')">👩 Mother (እናት)</button>
+    <button class="role-btn" id="role-worker" onclick="setRole('worker')">🩺 Health Worker (የጤና ባለሙያ)</button>
+    <button class="role-btn" id="role-clinician" onclick="setRole('clin')">🏥 Clinician (ዶክተር)</button>
+  </div>
+
+  <!-- Horizontal Scroll Navigation -->
+  <nav class="tab-nav" id="tab-nav">
+    <!-- Populated dynamically via JS -->
+  </nav>
+
+  <!-- Main View Area -->
+  <main id="main-content">
+    <!-- Screen Views rendered dynamically -->
+  </main>
+
+  <!-- SOS Emergency Bottom Bar -->
+  <div id="sos-bar">
+    <div class="sos-inner">
+      <button class="sos-btn" onclick="navTo('danger')">
+        <span>🚨</span>
+        <span id="sos-text">Seek Urgent Medical Care</span>
+      </button>
+      <a class="sos-call-btn" href="tel:907" title="Emergency Health Line">
+        <span>📞</span>
+        <span>907</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 11-Step Guided Demo Flow Modal -->
+  <div class="tour-modal" id="tour-modal" onclick="closeTour(event)">
+    <div class="tour-card" onclick="event.stopPropagation()">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h3 style="margin:0; font-size:1.15rem; color:var(--brand);">✨ 11-Step Demo Flow Walkthrough</h3>
+        <button style="border:none; background:transparent; font-size:1.2rem; cursor:pointer;" onclick="closeTour()">✕</button>
+      </div>
+      <p style="font-size:0.8rem; color:var(--muted); margin-top:0;">
+        Follow these 11 interactive steps to test all requirements specified in the evaluation brief:
+      </p>
+
+      <div class="tour-step" onclick="runTourStep(1)">
+        <div class="tour-num">1</div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:0.85rem;">Select Language & Enter Due Date</div>
+          <div style="font-size:0.75rem; color:var(--muted);">Switch between EN, AM, OM & calculate pregnancy week.</div>
+        </div>
+      </div>
+
+      <div class="tour-step" onclick="runTourStep(2)">
+        <div class="tour-num">2</div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:0.85rem;">View ANC Care Schedule</div>
+          <div style="font-size:0.75rem; color:var(--muted);">Explore the 8 WHO antenatal contacts timeline.</div>
+        </div>
+      </div>
+
+      <div class="tour-step" onclick="runTourStep(3)">
+        <div class="tour-num">3</div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:0.85rem;">Weekly Guide & Audio Playback</div>
+          <div style="font-size:0.75rem; color:var(--muted);">What's normal/not normal with voice audio narration.</div>
+        </div>
+      </div>
+
+      <div class="tour-step" onclick="runTourStep(4)">
+        <div class="tour-num">4</div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:0.85rem;">Danger-Sign Checker (Yes to Bleeding)</div>
+          <div style="font-size:0.75rem; color:var(--muted);">Immediate trigger of Urgent Medical Care screen & call.</div>
+        </div>
+      </div>
+
+      <div class="tour-step" onclick="runTourStep(5)">
+        <div class="tour-num">5</div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:0.85rem;">Save Emergency Plan & Checklist</div>
+          <div style="font-size:0.75rem; color:var(--muted);">Facility, driver, companion, savings & birth packing.</div>
+        </div>
+      </div>
+
+      <div class="tour-step" onclick="runTourStep(6)">
+        <div class="tour-num">6</div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:0.85rem;">Simulate Offline Mode & Reopen Plan</div>
+          <div style="font-size:0.75rem; color:var(--muted);">Verify emergency plan opens completely offline.</div>
+        </div>
+      </div>
+
+      <div class="tour-step" onclick="runTourStep(7)">
+        <div class="tour-num">7</div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:0.85rem;">Mark Supplement as Taken (Wellbeing)</div>
+          <div style="font-size:0.75rem; color:var(--muted);">Daily iron & folic acid with kind missed-dose advice.</div>
+        </div>
+      </div>
+
+      <div class="tour-step" onclick="runTourStep(8)">
+        <div class="tour-num">8</div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:0.85rem;">Sample Article & Ask Midwife Form</div>
+          <div style="font-size:0.75rem; color:var(--muted);">Reviewed badges, question input & simulated call-back.</div>
+        </div>
+      </div>
+
+      <div class="tour-step" onclick="runTourStep(9)">
+        <div class="tour-num">9</div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:0.85rem;">Pregnancy Card & Secure QR Preview</div>
+          <div style="font-size:0.75rem; color:var(--muted);">Editable clinical records & secure demo-only QR code.</div>
+        </div>
+      </div>
+
+      <div class="tour-step" onclick="runTourStep(10)">
+        <div class="tour-num">10</div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:0.85rem;">Invite Family & Preview Consent Alerts</div>
+          <div style="font-size:0.75rem; color:var(--muted);">Granular sharing toggles and real SMS alert previews.</div>
+        </div>
+      </div>
+
+      <div class="tour-step" onclick="runTourStep(11)">
+        <div class="tour-num">11</div>
+        <div style="flex:1;">
+          <div style="font-weight:700; font-size:0.85rem;">Talk to Enat (Voice Agent & Safety Triage)</div>
+          <div style="font-size:0.75rem; color:var(--muted);">Speak/type concern, transcript check & immediate danger redirect.</div>
+        </div>
+      </div>
+      
+      <button class="btn alt" style="margin-top:10px;" onclick="closeTour()">Close Tour</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// --- GLOBAL APPLICATION STATE ---
+var S = {
+  lang: "en",
+  role: "mother",
+  tab: "home",
+  edd: "2027-04-15",
+  lmp: "2026-07-08",
+  offlineSimulated: false,
+  // 1. Danger sign checker
+  dangerStep: 0,
+  dangerAnswers: {},
+  dangerUrgentTriggered: false,
+  urgentReason: "",
+  // 2. ANC
+  ancVisits: [0, 1],
+  remindersType: "both",
+  // 3. Weekly guide
+  guideWeek: 24,
+  audioPlaying: false,
+  // 4. Emergency plan
+  facility: "Wolkite Health Centre (Demo)",
+  facilityPhone: "011-551-1234",
+  transportOption: "Bajaj Driver Abebe (Demo)",
+  transportPhone: "0911-00-11-22",
+  companionName: "Sister Aster (Demo)",
+  companionPhone: "0922-33-44-55",
+  trustedFamilyName: "Tadesse (Husband, Demo)",
+  trustedFamilyPhone: "0912-34-56-78",
+  emergencySavings: "1,500 ETB in cash",
+  // 5. Checklist
+  checklist: [
+    { id: 1, text: "Delivery health facility chosen & route planned", done: true },
+    { id: 2, text: "Birth companion identified and informed", done: true },
+    { id: 3, text: "2 transport options with phone numbers saved", done: true },
+    { id: 4, text: "Emergency funds set aside for birth & transport", done: true },
+    { id: 5, text: "Clean baby clothing, blanket and baby wrap packed", done: false },
+    { id: 6, text: "Maternal pads, soap, clean cloth & towel packed", done: false },
+    { id: 7, text: "Identity card & antenatal care card in bag", done: false }
+  ],
+  // 7. Wellbeing / Nutrition & Iron
+  ironStreak: 4,
+  ironTakenToday: false,
+  ironMissedInfo: false,
+  // 8. Ask Midwife & Articles
+  midwifeQuestion: "",
+  callbackRequested: false,
+  submittedQuestions: [],
+  // 9. Digital Card
+  card: {
+    motherName: "Almaz Tesfaye (Demo)",
+    bloodGroup: "O+",
+    rhFactor: "Positive",
+    hbLevel: "12.2 g/dL",
+    ttDoses: [true, true, false, false, false],
+    visitLog: [
+      { date: "2026-08-15", week: 10, bp: "110/70", weight: "54 kg", note: "Baseline tests done. Started daily iron/folic acid." },
+      { date: "2026-10-24", week: 20, bp: "115/75", weight: "57 kg", note: "Fetal heart rate normal (142 bpm). TT dose 1 administered." }
+    ]
+  },
+  // 10. Family Mode
+  family: {
+    consentGiven: true,
+    name: "Tadesse (Husband, Demo)",
+    phone: "0912-34-56-78",
+    relation: "Husband",
+    shareAnc: true,
+    shareBirthPrep: true,
+    shareEmergency: true
+  },
+  // 11. Voice Agent
+  voiceConsent: true,
+  voiceRecording: false,
+  voiceText: "",
+  voiceCategory: null,
+  voiceResponse: null,
+  // USSD
+  ussdScreen: "main",
+  // Health worker records
+  hwMothers: [
+    { id: "ETH-M-014", name: "Almaz T.", week: 24, edd: "2027-04-15", nextAnc: 3, ancWeek: 26, missed: 0, status: "On Track", phone: "0911-22-33-44", followUp: "Routine check" },
+    { id: "ETH-M-022", name: "Tigist B.", week: 32, edd: "2027-01-18", nextAnc: 4, ancWeek: 30, missed: 1, status: "Missed Contact #4", phone: "0922-44-55-66", followUp: "Home visit needed: check BP & fetal kicks" },
+    { id: "ETH-M-038", name: "Hirut M.", week: 16, edd: "2027-05-08", nextAnc: 2, ancWeek: 20, missed: 0, status: "On Track", phone: "0933-55-66-77", followUp: "Iron refill reminder" },
+    { id: "ETH-M-045", name: "Selam D.", week: 37, edd: "2026-12-14", nextAnc: 6, ancWeek: 36, missed: 1, status: "Overdue Contact #6", phone: "0944-66-77-88", followUp: "Urgent check: verify birth companion & Bajaj driver" },
+    { id: "ETH-M-051", name: "Genet K.", week: 28, edd: "2027-02-15", nextAnc: 4, ancWeek: 30, missed: 0, status: "On Track", phone: "0955-77-88-99", followUp: "Review 3rd-trimester birth checklist" }
+  ]
+};
+
+// --- MULTILINGUAL TRANSLATION STRINGS ---
+var I18N = {
+  en: {
+    brandSub: "Ethiopian Maternal Health Companion",
+    reviewNotice: "⚠️ Sample content — Requires review by a local health professional.",
+    simNotice: "ℹ️ Simulated service: Push notifications, SMS, and clinician callbacks are simulated in this prototype.",
+    sosBtn: "Seek Urgent Medical Care",
+    sosHelp: "🚨 Is this an emergency? Get help now",
+    tabs: {
+      home: "Home",
+      danger: "🚨 Danger Signs",
+      anc: "🗓️ Care Schedule",
+      weekly: "📖 Weekly Guide",
+      emergency: "🚑 Emergency Plan",
+      birthprep: "🎒 Birth Prep",
+      wellbeing: "🥣 Wellbeing",
+      midwife: "👩‍⚕️ Ask Midwife",
+      card: "📋 My Card",
+      family: "👨‍👩‍👧 Family Mode",
+      voice: "🎙️ Talk to Enat",
+      rural: "📶 Rural & USSD",
+      worker: "🩺 Health Worker"
+    },
+    dangerSignsTitle: "Are you experiencing any of these symptoms?",
+    dangerDesc: "Answer honestly. If you have any danger signs, we will guide you to urgent medical care immediately.",
+    questions: [
+      { id: "bleeding", title: "Heavy or fresh vaginal bleeding (any amount)", hint: "Any blood from your vagina is not normal during pregnancy and requires urgent medical assessment." },
+      { id: "headache_vision", title: "Severe, persistent headache or blurred / spotted vision", hint: "Can be a sign of high blood pressure or pre-eclampsia. Requires urgent facility check." },
+      { id: "fever", title: "High fever, chills, or severe hot flushes", hint: "Infections must be checked and treated promptly to protect mother and child." },
+      { id: "belly_pain", title: "Severe or sharp abdominal (belly) pain", hint: "Constant or cramping sharp pain is a warning sign that requires urgent doctor/midwife check." },
+      { id: "convulsions", title: "Convulsions, uncontrollable shaking fits, or fainting", hint: "A severe medical emergency (eclampsia). Clear space around her and call 907 immediately." },
+      { id: "leaking_fluid", title: "Water leaking or gushing before your due time", hint: "Waters breaking early carries serious infection risk. Visit hospital without waiting for labor." },
+      { id: "baby_movement", title: "Reduced, weakened, or completely absent baby movement", hint: "If your baby moves significantly less than normal, seek health facility care right away." }
+    ],
+    urgentHeader: "🚨 Seek urgent medical care now.",
+    urgentSub: "Go to the nearest hospital or health centre immediately. Do not wait.",
+    callClinic: "📞 Call Wolkite Health Centre (011-551-1234)",
+    call907: "📞 Call Emergency Ambulance (907)",
+    notifyFamily: "👨‍👩‍👧 Notify Family Contact (Tadesse)",
+    noDangerHeader: "No danger signs reported in this check",
+    noDangerBody: "Never assume you are definitely safe. A 'No' result does not rule out a medical emergency. If you feel unwell, have severe pain, or feel something is wrong, always contact a health worker.",
+    ancTitle: "Your care schedule",
+    ancSubtitle: "Based on the WHO 8-contact antenatal care model. Schedules must follow current Ethiopian Ministry of Health guidance.",
+    weeklyTitle: "This week of pregnancy",
+    weeklySub: "Follow your baby's growth and understand what changes to expect each week.",
+    isEmergencyBtn: "🚨 Is this an emergency? Check symptoms",
+    listenGuide: "🔊 Listen to this week's guide",
+    emergencyTitle: "My emergency plan",
+    emergencySub: "Saved locally on this device. Accessible anytime, even without an internet connection.",
+    checklistTitle: "Getting ready for birth",
+    checklistSub: "Gentle preparation for you and your baby. Take it one step at a time.",
+    nudge28: "🌸 Week 28 Gentle Reminder: You are entering your third trimester! Preparing for birth now brings confidence and peace of mind.",
+    wellbeingTitle: "Daily wellbeing",
+    wellbeingSub: "Wholesome Ethiopian nutrition, daily iron tablets, and caring for your energy.",
+    fastingNotice: "⚠️ Fasting period guidance: In Ethiopian Orthodox, Islamic, and Protestant traditions, pregnant and breastfeeding mothers are widely granted dispensation from strict fasting. Consult your spiritual leader and health worker. Never skip your daily iron supplements or fluids. [Requires local clinical review].",
+    fastingDietWarning: "Do not alter prescribed supplements or clinical diets without speaking directly to your doctor or midwife.",
+    cardTitle: "My pregnancy card",
+    cardSub: "Editable demo digital health record. The QR code holds only a fictional Demo Patient ID for security.",
+    qrSecurityNotice: "🔐 Privacy & Medical Data Safety: This QR code encodes only a fictional Demo Patient ID (ENAT-CARD-DEMO-M-014). Sensitive health records are NEVER placed in public QR codes.",
+    familyTitle: "Invite someone I trust",
+    familySub: "Share your pregnancy journey with a supportive companion. You decide what is shared and can turn sharing off anytime.",
+    voiceTitle: "Talk to Enat",
+    voiceSub: "Speak or type your concern. Simulated assistant with safety-first clinical triaging."
+  },
+  am: {
+    brandSub: "ለኢትዮጵያውያን እናቶች የእርግዝና ጓደኛ [የናሙና ትርጉም]",
+    reviewNotice: "⚠️ የናሙና ይዘት — በአካባቢ የጤና ባለሙያ መገምገም ያስፈልገዋል [የአካባቢ ክለሳ ይጠብቃል]።",
+    simNotice: "ℹ️ አስመስሎ የቀረበ አገልግሎት፦ የኤስኤምኤስ (SMS) እና የጥሪ ማሳሰቢያዎች በዚህ ናሙና ውስጥ የተመሰሉ ናቸው።",
+    sosBtn: "አስቸኳይ የህክምና እርዳታ ያግኙ",
+    sosHelp: "🚨 ይህ አስቸኳይ ነው? አሁኑኑ እርዳታ ያግኙ",
+    tabs: {
+      home: "መነሻ",
+      danger: "🚨 የአደጋ ምልክቶች",
+      anc: "🗓️ የእንክብካቤ መርሃግብር",
+      weekly: "📖 ሳምንታዊ መመሪያ",
+      emergency: "🚑 የአደጋ ጊዜ እቅድ",
+      birthprep: "🎒 የወሊድ ዝግጅት",
+      wellbeing: "🥣 ዕለታዊ ጤና",
+      midwife: "👩‍⚕️ አዋላጅ ይጠይቁ",
+      card: "📋 የእርግዝና ካርድ",
+      family: "👨‍👩‍👧 የቤተሰብ ሁነታ",
+      voice: "🎙️ ከእናት ጋር ያውሩ",
+      rural: "📶 የገጠር እና USSD",
+      worker: "🩺 የጤና ባለሙያ"
+    },
+    dangerSignsTitle: "ከእነዚህ ምልክቶች ውስጥ አንዱ ይሰማዎታል?",
+    dangerDesc: "እባክዎ በትክክል ይመልሱ። ማንኛውም የአደጋ ምልክት ካለዎት ወዲያውኑ ወደ አስቸኳይ ህክምና እንመራዎታለን።",
+    questions: [
+      { id: "bleeding", title: "ከባድ ወይም ትኩስ የማህፀን ደም መፍሰስ (በማንኛውም መጠን)", hint: "በእርግዝና ወቅት በማንኛውም መጠን ደም መፍሰስ አስቸኳይ የሆስፒታል ክትትል ያስፈልገዋል።" },
+      { id: "headache_vision", title: "ከባድ፣ የማያቋርጥ ራስ ምታት ወይም የዓይን ብዥታ/ድብዝዝ ማለት", hint: "የደም ግፊት መጨመር ምልክት ሊሆን ይችላል። አስቸኳይ ክትትል ያድርጉ።" },
+      { id: "fever", title: "ከፍተኛ ትኩሳት፣ ብርድ ብርድ ማለት ወይም ሙቀት", hint: "ኢንፌክሽኖች እናትንና ህፃኑን እንዳይጎዱ ወዲያውኑ መታከም አለባቸው።" },
+      { id: "belly_pain", title: "ከባድ ወይም ኃይለኛ የሆድ ቁርጠት/ህመም", hint: "የማያቋርጥ ከባድ የሆድ ህመም አደገኛ ምልክት ስለሆነ ወዲያውኑ መመርመር አለበት።" },
+      { id: "convulsions", title: "መንቀጥቀጥ፣ ከቁጥጥር ውጭ የሆነ ሰውነት መወዛወዝ ወይም ራስን መሳት", hint: "ከባድ የህክምና ድንገተኛ አደጋ ነው። በጎኗ አስኝተዋት አሁኑኑ 907 ይደውሉ።" },
+      { id: "leaking_fluid", title: "ጊዜው ሳይደርስ የማህፀን ፈሳሽ ወይም ውሃ መፍሰስ", hint: "የማህፀን ውሃ ቀድሞ መፍሰስ የኢንፌክሽን አደጋ ስላለው ወዲያውኑ ሆስፒታል ይሂዱ።" },
+      { id: "baby_movement", title: "የልጅዎ እንቅስቃሴ መቀነስ ወይም ሙሉ በሙሉ አለመሰማት", hint: "የፅንሱ እንቅስቃሴ ከተለመደው ከቀነሰ በአስቸኳይ ወደ ጤና ተቋም ይሂዱ።" }
+    ],
+    urgentHeader: "🚨 አስቸኳይ የህክምና እርዳታ አሁኑኑ ያግኙ።",
+    urgentSub: "ወደ ቅርብ ሆስፒታል ወይም ጤና ጣቢያ አሁኑኑ ይሂዱ። በጭራሽ አይዘግዩ።",
+    callClinic: "📞 ወልቂጤ ጤና ጣቢያ ይደውሉ (011-551-1234)",
+    call907: "📞 አምቡላንስ 907 ይደውሉ",
+    notifyFamily: "👨‍👩‍👧 ለቤተሰብ መልዕክት ላክ (ታደሰ)",
+    noDangerHeader: "በዚህ ፍተሻ ምንም የአደጋ ምልክት አልተገኘም",
+    noDangerBody: "ሙሉ በሙሉ ደህና ነኝ ብለው በጭራሽ አያስቡ። 'አይ' የሚል ውጤት ድንገተኛ አደጋን አያስቀርም። ህመም ከተሰማዎት ወይም ከተጨነቁ ሁልጊዜ የጤና ባለሙያ ያማክሩ።",
+    ancTitle: "የእንክብካቤ መርሃግብርዎ",
+    ancSubtitle: "በዓለም ጤና ድርጅት (WHO) ባለ 8 ክትትል ሞዴል ላይ የተመሰረተ። በኢትዮጵያ ጤና ጥበቃ መመሪያ መሰረት የሚሰራ።",
+    weeklyTitle: "የዚህ ሳምንት እርግዝና",
+    weeklySub: "የልጅዎን እድገት ይከታተሉ እና በእያንዳንዱ ሳምንት የሚጠበቁ ለውጦችን ይረዱ።",
+    isEmergencyBtn: "🚨 ይህ አስቸኳይ አደጋ ነው? ምልክቶችን ይፈትሹ",
+    listenGuide: "🔊 የሳምንቱን መመሪያ ያዳምጡ",
+    emergencyTitle: "የአደጋ ጊዜ እቅዴ",
+    emergencySub: "በዚህ ስልክ ላይ ተቀምጧል። ያለ ኢንተርኔት በማንኛውም ጊዜ ይከፈታል።",
+    checklistTitle: "ለወሊድ መዘጋጀት",
+    checklistSub: "ለእርስዎ እና ለልጅዎ ገር ዝግጅት። ደረጃ በደረጃ ይዘጋጁ።",
+    nudge28: "🌸 የ28ኛ ሳምንት ማሳሰቢያ፦ ወደ 3ኛው የእርግዝና ክፍለ ጊዜ ገብተዋል! አሁኑኑ መዘጋጀት መረጋጋትና ድፍረት ይሰጥዎታል።",
+    wellbeingTitle: "ዕለታዊ ጤና እና አመጋገብ",
+    wellbeingSub: "የኢትዮጵያ አልሚ ምግቦች፣ የየቀኑ አይረን እና ፎሊክ አሲድ ክትትል።",
+    fastingNotice: "⚠️ የጾም ወቅት መመሪያ፦ በኢትዮጵያ ኦርቶዶክስ፣ እስልምና እና ፕሮቴስታንት አስተምህሮቶች እርጉዝ እናቶች እንዳይጾሙ ይፈቀዳል። የሃይማኖት አባትዎን እና የጤና ባለሙያን ያማክሩ። አይረንና ውሃ በጭራሽ አያቋርጡ። [የአካባቢ ክለሳ ያስፈልጋል]።",
+    fastingDietWarning: "የታዘዘልዎትን መድሃኒት ወይም አመጋገብ ያለ ሃኪም ትዕዛዝ በጭራሽ አይቀይሩ።",
+    cardTitle: "የእርግዝና ካርዴ",
+    cardSub: "የዲጂታል ካርድ ናሙና። የQR ኮዱ ለደህንነት ሲባል የናሙና መታወቂያ ቁጥር ብቻ ይዟል።",
+    qrSecurityNotice: "🔐 የደህንነት ማስታወሻ፦ ይህ QR ኮድ የናሙና መለያ (ENAT-CARD-DEMO-M-014) ብቻ ይዟል። የግል የጤና መረጃዎች በQR ኮድ ውስጥ አይቀመጡም።",
+    familyTitle: "የማምነውን ሰው መጋበዝ",
+    familySub: "የእርግዝና ጉዞዎን ከሚያምኑት አጋር ጋር ያካፍሉ። ምን እንደሚጋራ እርስዎ ይወስናሉ፤ በማንኛውም ጊዜ ማቋረጥ ይችላሉ።",
+    voiceTitle: "ከእናት ጋር ይነጋገሩ",
+    voiceSub: "በድምፅ ወይም በጽሑፍ ይጠይቁ። ደህንነትን የሚያስቀድም አጋዥ።"
+  },
+  om: {
+    brandSub: "Hiriyaa Ulfaa Haadholii Itoophiyaaf [Fakkeenya]",
+    reviewNotice: "⚠️ Qabiyyee fakkeenyaa — Ogeessa fayyaa naannootiin gamaaggamamuun barbaachisaadha [Gamaaggama eega].",
+    simNotice: "ℹ️ Tajaajila fakkeenyaa: Ergaan SMS fi bilbilli asitti fakkeenyaan kan qophaa'edha.",
+    sosBtn: "Yaala Hatattamaa Barbaadaa",
+    sosHelp: "🚨 Kun balaa dha? Amma gargaarsa argadhaa",
+    tabs: {
+      home: "Jalqaba",
+      danger: "🚨 Mallattoo Balaa",
+      anc: "🗓️ Sagantaa Hordoffii",
+      weekly: "📖 Qajeelfama Torbanii",
+      emergency: "🚑 Karoora Balaa",
+      birthprep: "🎒 Qophii Da'umsaa",
+      wellbeing: "🥣 Fayyaa Guyyaa",
+      midwife: "👩‍⚕️ Ogeessa Gaafadhu",
+      card: "📋 Kaardii Ulfaa",
+      family: "👨‍👩‍👧 Haala Maatii",
+      voice: "🎙️ Enat waliin Dubbadhaa",
+      rural: "📶 Tajaajila Baadiyyaa",
+      worker: "🩺 Ogeessa Fayyaa"
+    },
+    dangerSignsTitle: "Mallattoolee kanneen keessaa kamiyyuu sitti dhaga'amaa?",
+    dangerDesc: "Amanamuudhaan deebisaa. Yoo mallattoon balaa jiraate, hatattamaan gara yaalaatti si qajeelchina.",
+    questions: [
+      { id: "bleeding", title: "Dhiigni qaama saalaatiin dhangala'uu (homaa haa ta'u)", hint: "Ulfa keessatti dhiigni dhangala'uun tasuma sirrii miti. Hatattamaan hospitaala deemi." },
+      { id: "headache_vision", title: "Mataa dhukkubbii cimaa ykn iji dukkanaa'uu/balali'uu", hint: "Mallattoo dhiibbaa dhiigaa olka'uu ta'uu danda'a. Ogeessa fayyaa hatattamaan ilaali." },
+      { id: "fever", title: "Ho'a qaamaa cimaa, qorri ykn dhedhebbii", hint: "Infeeshiiniin haadha fi daa'ima akka hin miine dafee yaalamuu qaba." },
+      { id: "belly_pain", title: "Dhukkubbii garaa cimaa ykn waraansa qara", hint: "Waraansi garaa cimaan mallattoo balaa waan ta'eef hatattamaan qoratamuu qaba." },
+      { id: "convulsions", title: "Hurraaqiitii (kaadhimmachuu) ykn of wallaaluu", hint: "Balaa fayyaa cimaadha. Cinaacha isheerratti ciibsaa, 907 bilbilaa." },
+      { id: "leaking_fluid", title: "Bishaan da'umsaa yeroo malee dhangala'uu", hint: "Bishaan yeroo malee dhangala'uun balaa infeekshinii waan qabuuf hospitaala deemi." },
+      { id: "baby_movement", title: "Sochiin daa'imaa hir'achuu ykn guutummaatti dhaabbachuu", hint: "Sochiin daa'imaa kan duraa irraa yoo xiqqaate buufata fayyaa dhaqi." }
+    ],
+    urgentHeader: "🚨 Amma iyyuu yaala fayyaa hatattamaa barbaadaa.",
+    urgentSub: "Hospitaala ykn buufata fayyaa dhiyoo jiru hatattamaan deemaa. Hin turinaa.",
+    callClinic: "📞 Buufata Fayyaa Walqixxeetti bilbilaa (011-551-1234)",
+    call907: "📞 Ambulaansii 907 bilbilaa",
+    notifyFamily: "👨‍👩‍👧 Maatii beeksisi (Taaddasaa)",
+    noDangerHeader: "Qormaata kanaan mallattoon balaa hin argamne",
+    noDangerBody: "Nagaan jira jettee tasuma hin yaadin. Deebiin 'Lakki' jedhu balaa hin dhowwu. Yoo dhukkubbiin sitti dhaga'ame yeroo hunda ogeessa fayyaa qunnami.",
+    ancTitle: "Sagantaa hordoffii keessanii",
+    ancSubtitle: "Moodeela hordoffii 8 kan WHO irratti hundaa'e. Qajeelfama Ministeera Fayyaa hordofuu qaba.",
+    weeklyTitle: "Ulfa torban kanaa",
+    weeklySub: "Guddina daa'ima keessanii hordofaa, jijjiirama torban torbaniin eegamu hubadhaa.",
+    isEmergencyBtn: "🚨 Kun balaa dha? Mallattoolee ilaalaa",
+    listenGuide: "🔊 Qajeelfama torbanii dhaggeeffadhaa",
+    emergencyTitle: "Karoora balaa koo",
+    emergencySub: "Bilbila kana irratti qophaa'eera. Intarneetii malee yeroo hunda ni bana.",
+    checklistTitle: "Qophii da'umsaaf",
+    checklistSub: "Qophii tasgabbaa'aa sirraa fi daa'ima keetiif. Suuta suutaan qophaa'aa.",
+    nudge28: "🌸 Yaadachiisa Torban 28ffaa: Kutaa 3ffaa ulfaa seenteetta! Amma qophaa'uun tasgabbii fi sodaa dhabuu siif kenna.",
+    wellbeingTitle: "Fayyaa fi nyaata guyyaa",
+    wellbeingSub: "Nyaata aadaa Itoophiyaa madaalamaa, aayirinii fi foolik aasiidii guyyaa guyyaa.",
+    fastingNotice: "⚠️ Qajeelfama soomaa: Amantaalee Itoophiyaa keessatti haadholiin ulfaa sooma irraa bilisa godhamaniiru. Abbaa amantaa fi ogeessa fayyaa mariisisaa. Aayirinii fi bishaan hin dhiisinaa. [Gamaaggama naannoo barbaada].",
+    fastingDietWarning: "Qoricha ykn nyaata siif ajajame osoo ogeessa fayyaa hin gaafatin hin jijjiirin.",
+    cardTitle: "Kaardii ulfaa koo",
+    cardSub: "Kaardii dijitaalaa fakkeenyaa. Koodiin QR nageenyaaf jedhee lakkoofsa eenyummaa fakkeenyaa qofa qabata.",
+    qrSecurityNotice: "🔐 Nageenya Odeeffannoo Fayyaa: Koodiin QR kun eenyummaa fakkeenyaa (ENAT-CARD-DEMO-M-014) qofa qaba. Odeeffannoon fayyaa QR keessa hin kaawwamu.",
+    familyTitle: "Nama ani amanu affeeruu",
+    familySub: "Adeemsa ulfa kee nama jaallattu wajjin qooddadhu. Waan qoodamu ati murteessita.",
+    voiceTitle: "Enat waliin dubbadhaa",
+    voiceSub: "Sagaleedhaan ykn barreessuun gaafadhaa. Gargaaraa nageenya durse."
+  }
+};
+
+// --- CORE UTILITIES ---
+function t() { return I18N[S.lang] || I18N.en; }
+
+function esc(str) {
+  if (!str) return "";
+  return String(str).replace(/[&<>"']/g, function(m) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m];
+  });
+}
+
+function calcGestationalWeek() {
+  if (!S.edd) return 24;
+  var eddDate = new Date(S.edd);
+  var today = new Date();
+  var diffMs = eddDate - today;
+  var remainingWeeks = Math.round(diffMs / (7 * 24 * 60 * 60 * 1000));
+  var currentWeek = 40 - remainingWeeks;
+  if (isNaN(currentWeek) || currentWeek < 1) currentWeek = 1;
+  if (currentWeek > 42) currentWeek = 40;
+  return currentWeek;
+}
+
+function getTrimester(week) {
+  if (week <= 13) return 1;
+  if (week <= 27) return 2;
+  return 3;
+}
+
+function setLang(l) {
+  S.lang = l;
+  document.getElementById("btn-lang-en").className = "lang-btn" + (l === "en" ? " active" : "");
+  document.getElementById("btn-lang-am").className = "lang-btn" + (l === "am" ? " active" : "");
+  document.getElementById("btn-lang-om").className = "lang-btn" + (l === "om" ? " active" : "");
+  document.getElementById("hdr-sub").textContent = t().brandSub;
+  document.getElementById("sos-text").textContent = t().sosBtn;
+  renderNav();
+  renderContent();
+  saveState();
+}
+
+function setRole(r) {
+  S.role = r;
+  document.querySelectorAll(".role-btn").forEach(function(b) { b.classList.remove("active"); });
+  document.getElementById("role-" + (r === "clin" ? "clinician" : r)).classList.add("active");
+  if (r === "worker") S.tab = "worker";
+  else if (r === "clin") S.tab = "clin";
+  else S.tab = "home";
+  renderNav();
+  renderContent();
+}
+
+function navTo(tabId) {
+  S.tab = tabId;
+  // If moving out of danger urgent, reset urgent flag if wanted
+  if (tabId === "danger" && !S.dangerUrgentTriggered) {
+    S.dangerStep = 0;
+  }
+  renderNav();
+  renderContent();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function toggleOfflineSim() {
+  S.offlineSimulated = !S.offlineSimulated;
+  var banner = document.getElementById("status-banner");
+  var statusText = document.getElementById("status-text");
+  if (S.offlineSimulated) {
+    banner.className = "status-banner offline";
+    statusText.textContent = "🟠 Simulated Offline Mode (No Internet · Local Cache Active)";
+  } else {
+    banner.className = "status-banner";
+    statusText.textContent = "🟢 Online · Demo Prototype";
+  }
+  renderContent();
+}
+
+function saveState() {
+  try {
+    localStorage.setItem("enat_maternal_health_v3", JSON.stringify(S));
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    var raw = localStorage.getItem("enat_maternal_health_v3");
+    if (raw) {
+      var parsed = JSON.parse(raw);
+      for (var k in parsed) S[k] = parsed[k];
+    }
+  } catch(e) {}
+}
+
+// --- NAVIGATION TABS RENDERING ---
+function renderNav() {
+  var nav = document.getElementById("tab-nav");
+  var tr = t();
+  var tabs = [];
+  
+  if (S.role === "mother") {
+    tabs = [
+      { id: "home", label: tr.tabs.home },
+      { id: "danger", label: tr.tabs.danger },
+      { id: "anc", label: tr.tabs.anc },
+      { id: "weekly", label: tr.tabs.weekly },
+      { id: "emergency", label: tr.tabs.emergency },
+      { id: "birthprep", label: tr.tabs.birthprep },
+      { id: "wellbeing", label: tr.tabs.wellbeing },
+      { id: "midwife", label: tr.tabs.midwife },
+      { id: "card", label: tr.tabs.card },
+      { id: "family", label: tr.tabs.family },
+      { id: "voice", label: tr.tabs.voice },
+      { id: "rural", label: tr.tabs.rural }
+    ];
+  } else if (S.role === "worker") {
+    tabs = [
+      { id: "worker", label: tr.tabs.worker },
+      { id: "anc", label: tr.tabs.anc },
+      { id: "danger", label: tr.tabs.danger },
+      { id: "rural", label: tr.tabs.rural }
+    ];
+  } else {
+    tabs = [
+      { id: "clin", label: "🏥 Clinician Dashboard" },
+      { id: "card", label: tr.tabs.card },
+      { id: "danger", label: tr.tabs.danger }
+    ];
+  }
+
+  nav.innerHTML = tabs.map(function(tb) {
+    var activeClass = (S.tab === tb.id) ? " active" : "";
+    return '<button class="tab-btn' + activeClass + '" onclick="navTo(\'' + tb.id + '\')">' + tb.label + '</button>';
+  }).join("");
+}
+
+// --- RENDER SCREEN CONTENT ---
+function renderContent() {
+  var main = document.getElementById("main-content");
+  var tr = t();
+  var currentWeek = calcGestationalWeek();
+  var html = "";
+
+  // Hide or show bottom emergency bar
+  var sos = document.getElementById("sos-bar");
+  if (sos) sos.style.display = (S.tab === "danger" && S.dangerUrgentTriggered) ? "none" : "block";
+
+  // SCREEN 1: DANGER SIGNS CHECKER
+  if (S.tab === "danger") {
+    html += renderDangerSignChecker();
+  }
+  // SCREEN 2: CARE SCHEDULE (ANC 8 CONTACTS)
+  else if (S.tab === "anc") {
+    html += renderCareSchedule(currentWeek);
+  }
+  // SCREEN 3: WEEKLY GUIDE
+  else if (S.tab === "weekly") {
+    html += renderWeeklyGuide(currentWeek);
+  }
+  // SCREEN 4: EMERGENCY PLAN
+  else if (S.tab === "emergency") {
+    html += renderEmergencyPlan();
+  }
+  // SCREEN 5: BIRTH PREPAREDNESS CHECKLIST
+  else if (S.tab === "birthprep") {
+    html += renderBirthChecklist(currentWeek);
+  }
+  // SCREEN 6 / 7: DAILY WELLBEING (NUTRITION & IRON)
+  else if (S.tab === "wellbeing") {
+    html += renderWellbeing();
+  }
+  // SCREEN 8: TRUSTED INFORMATION & ASK MIDWIFE
+  else if (S.tab === "midwife") {
+    html += renderMidwife();
+  }
+  // SCREEN 9: DIGITAL PREGNANCY CARD
+  else if (S.tab === "card") {
+    html += renderPregnancyCard(currentWeek);
+  }
+  // SCREEN 10: FAMILY MODE
+  else if (S.tab === "family") {
+    html += renderFamilyMode();
+  }
+  // SCREEN 11: VOICE AGENT (TALK TO ENAT)
+  else if (S.tab === "voice") {
+    html += renderVoiceAgent();
+  }
+  // SCREEN 12: RURAL ACCESS & USSD
+  else if (S.tab === "rural") {
+    html += renderRuralAccess();
+  }
+  // SCREEN 13: HEALTH WORKER DASHBOARD
+  else if (S.tab === "worker") {
+    html += renderHealthWorkerDashboard();
+  }
+  // SCREEN 14: CLINICIAN DASHBOARD
+  else if (S.tab === "clin") {
+    html += renderClinicianDashboard();
+  }
+  // SCREEN 0: HOME DASHBOARD
+  else {
+    html += renderHomeDashboard(currentWeek);
+  }
+
+  main.innerHTML = html;
+
+  // Post render hooks like QR code
+  if (S.tab === "card") {
+    drawQrCode();
+  }
+}
+
+// ==========================================
+// SCREEN IMPLEMENTATIONS
+// ==========================================
+
+// 1. DANGER SIGN CHECKER
+function renderDangerSignChecker() {
+  var tr = t();
+  var qList = tr.questions;
+  var html = '';
+
+  // If user triggered urgent care state:
+  if (S.dangerUrgentTriggered) {
+    return `
+      <div class="urgent-banner">
+        <div class="urgent-icon">🚨</div>
+        <div class="urgent-headline">${tr.urgentHeader}</div>
+        <div class="urgent-text">${tr.urgentSub}</div>
+        
+        <div class="card" style="text-align:left; background:var(--card); margin:12px 0; border-color:var(--red-border);">
+          <div style="font-weight:700; color:var(--red); margin-bottom:4px; font-size:0.95rem;">
+            ⚠️ Reported Danger Symptom:
+          </div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--text); margin-bottom:8px;">
+            ${esc(S.urgentReason || "Severe Pregnancy Complication")}
+          </div>
+          <div style="font-size:0.86rem; color:var(--muted); line-height:1.4;">
+            Immediate Steps: Lie on your left side. Do not take self-prescribed medication or herbs. Keep airway clear. Have your birth companion gather your ID and health card.
+          </div>
+        </div>
+
+        <a class="btn red" href="tel:${esc(S.facilityPhone || '011-551-1234')}" style="font-size:1rem; padding:15px;">
+          ${tr.callClinic}
+        </a>
+        
+        <a class="btn" style="background:#991b1b; margin-top:8px;" href="tel:907">
+          ${tr.call907}
+        </a>
+
+        <button class="btn alt" style="margin-top:8px; border-color:var(--red-border); color:var(--red);" onclick="triggerFamilyAlertSMS()">
+          ${tr.notifyFamily}
+        </button>
+
+        <p class="clinical-badge" style="justify-content:center; margin-top:12px; color:var(--red);">
+          Never delay seeking medical help. Calling 907 is toll-free across Ethiopia.
+        </p>
+
+        <button class="btn sm alt" style="margin:16px auto 0; width:auto;" onclick="resetDangerChecker()">
+          ↩ Start Check Again
+        </button>
+      </div>
+    `;
+  }
+
+  // Interactive Question Card (one question at a time or overview)
+  var qIndex = S.dangerStep;
+  var currentQ = qList[qIndex];
+  var totalQ = qList.length;
+
+  html += `
+    <div class="screen-header">
+      <h2 class="screen-title">${tr.dangerSignsTitle}</h2>
+      <p class="screen-desc">${tr.dangerDesc}</p>
+    </div>
+
+    <div class="notice-box">
+      <span>🛡️</span>
+      <div><strong>Clinical Safety Rule:</strong> Answering "No" does not guarantee you or your baby are completely safe. A negative result must never rule out an emergency.</div>
+    </div>
+  `;
+
+  if (qIndex < totalQ) {
+    html += `
+      <div class="card" style="border-top: 4px solid var(--brand);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="tag neutral">Question ${qIndex + 1} of ${totalQ}</span>
+          <span style="font-size:0.75rem; color:var(--muted);">Danger-Sign Screen</span>
+        </div>
+
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" style="width: ${((qIndex + 1) / totalQ) * 100}%;"></div>
+        </div>
+
+        <h3 style="font-size:1.15rem; margin:12px 0 8px; line-height:1.35; color:var(--text);">
+          ${currentQ.title}?
+        </h3>
+        <p style="font-size:0.86rem; color:var(--muted); margin:0 0 16px;">
+          ${currentQ.hint}
+        </p>
+
+        <div class="yn-row">
+          <button class="yn-btn yes" onclick="answerDangerQuestion('${currentQ.id}', true)">
+            <span>⚠️ YES</span>
+          </button>
+          <button class="yn-btn no" onclick="answerDangerQuestion('${currentQ.id}', false)">
+            <span>✅ NO</span>
+          </button>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:12px;">
+          ${qIndex > 0 ? '<button class="btn sm alt" onclick="prevDangerQuestion()">↩ Previous</button>' : '<span></span>'}
+          <button class="btn sm alt" onclick="showAllDangerChecklist()">View All Signs List</button>
+        </div>
+      </div>
+    `;
+  } else {
+    // All answers answered NO
+    html += `
+      <div class="card" style="border-top: 4px solid var(--green); text-align:center;">
+        <div style="font-size:2.4rem; margin-bottom:8px;">✅</div>
+        <h3 style="font-size:1.2rem; color:var(--green); margin:0 0 6px;">${tr.noDangerHeader}</h3>
+        <p style="font-size:0.9rem; color:var(--muted); line-height:1.45; margin:0 0 16px;">
+          ${tr.noDangerBody}
+        </p>
+
+        <div class="card" style="background:var(--bg); border:1px solid var(--line); text-align:left; margin-bottom:14px;">
+          <div style="font-weight:700; font-size:0.88rem; margin-bottom:4px;">When to contact a health worker:</div>
+          <ul style="margin:4px 0 0; padding-left:18px; font-size:0.84rem; color:var(--muted); line-height:1.4;">
+            <li>If you have persistent abdominal discomfort or nausea</li>
+            <li>If you notice swelling in your face or hands</li>
+            <li>If you feel anxious, very sad, or overwhelmed</li>
+            <li>Whenever your maternal intuition tells you something is wrong</li>
+          </ul>
+        </div>
+
+        <button class="btn" onclick="resetDangerChecker()">
+          🔁 Check Symptoms Again
+        </button>
+
+        <button class="btn alt" style="margin-top:8px;" onclick="navTo('home')">
+          🏠 Return to Home
+        </button>
+      </div>
+    `;
+  }
+
+  return html;
+}
+
+function answerDangerQuestion(qId, isYes) {
+  S.dangerAnswers[qId] = isYes;
+  if (isYes) {
+    // IMMEDIATE URGENT CARE SCREEN TRIGGER!
+    S.dangerUrgentTriggered = true;
+    var qObj = t().questions.find(function(q) { return q.id === qId; });
+    S.urgentReason = qObj ? qObj.title : "Reported Danger Sign";
+    renderContent();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } else {
+    S.dangerStep++;
+    renderContent();
+  }
+}
+
+function prevDangerQuestion() {
+  if (S.dangerStep > 0) S.dangerStep--;
+  renderContent();
+}
+
+function resetDangerChecker() {
+  S.dangerStep = 0;
+  S.dangerUrgentTriggered = false;
+  S.dangerAnswers = {};
+  S.urgentReason = "";
+  renderContent();
+}
+
+function showAllDangerChecklist() {
+  var tr = t();
+  var html = '<div class="card"><h3>All 7 Major Danger Signs</h3>';
+  tr.questions.forEach(function(q) {
+    html += '<div style="padding:8px 0; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;">';
+    html += '<div style="font-size:0.88rem; flex:1; padding-right:8px;">' + q.title + '</div>';
+    html += '<button class="btn sm red" style="width:auto;" onclick="answerDangerQuestion(\'' + q.id + '\', true)">Report Yes</button>';
+    html += '</div>';
+  });
+  html += '<button class="btn alt" style="margin-top:10px;" onclick="renderContent()">Back to Step-by-Step</button></div>';
+  document.getElementById("main-content").innerHTML = html;
+}
+
+function triggerFamilyAlertSMS() {
+  var phone = S.trustedFamilyPhone || "0912345678";
+  var text = "EMERGENCY: Almaz is experiencing a danger sign (" + (S.urgentReason || "Pregnancy danger sign") + "). Please arrange transport or meet at Wolkite Health Centre immediately. (Sent via Enat Companion)";
+  var smsUri = "sms:" + phone + "?body=" + encodeURIComponent(text);
+  alert("Simulated Family SMS Alert:\n\nTo: " + phone + "\n\nMessage: " + text + "\n\n(No real SMS network connected in prototype)");
+}
+
+// 2. CARE SCHEDULE (ANC REMINDERS)
+function renderCareSchedule(currentWeek) {
+  var tr = t();
+  var edd = S.edd || "2027-04-15";
+
+  // WHO 8 Contacts Model
+  var contacts = [
+    { num: 1, week: 10, title: "Contact 1 (Up to 12 weeks)", focus: "First antenatal visit. Confirm pregnancy, blood & urine baseline tests, ultrasound, start iron & folic acid." },
+    { num: 2, week: 20, title: "Contact 2 (~20 weeks)", focus: "Assess fetal anatomy, maternal wellbeing, blood pressure, Tetanus toxoid (TT) vaccine dose 1." },
+    { num: 3, week: 26, title: "Contact 3 (~26 weeks)", focus: "Screen for gestational diabetes, anaemia check, TT vaccine dose 2, discuss birth preparedness." },
+    { num: 4, week: 30, title: "Contact 4 (~30 weeks)", focus: "Blood pressure check, fetal growth measurement, pre-eclampsia screening, urine protein." },
+    { num: 5, week: 34, title: "Contact 5 (~34 weeks)", focus: "Review fetal presentation, review emergency transport, companion confirmation, birth pack." },
+    { num: 6, week: 36, title: "Contact 6 (~36 weeks)", focus: "Danger signs check, finalize emergency hospital plan, review baby clothing and supplies." },
+    { num: 7, week: 38, title: "Contact 7 (~38 weeks)", focus: "Review signs of labour, clarify when to travel to facility, reconfirm 24/7 driver contact." },
+    { num: 8, week: 40, title: "Contact 8 (~40 weeks)", focus: "Due date review, assessment of fetal wellbeing, post-term management plan." }
+  ];
+
+  var html = `
+    <div class="screen-header">
+      <h2 class="screen-title">${tr.ancTitle}</h2>
+      <p class="screen-desc">${tr.ancSubtitle}</p>
+    </div>
+
+    <!-- EDD Setting Card -->
+    <div class="card" style="background:var(--brand-soft); border-color:var(--brand-light);">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <div>
+          <label style="margin:0; font-size:0.75rem; text-transform:uppercase;">Estimated Due Date (EDD)</label>
+          <div style="font-size:1.15rem; font-weight:800; color:var(--brand);">${edd}</div>
+          <div style="font-size:0.8rem; color:var(--muted);">Current Gestational Age: <strong>Week ${currentWeek}</strong> (Trimester ${getTrimester(currentWeek)})</div>
+        </div>
+        <button class="btn sm alt" onclick="promptChangeEdd()">Edit Due Date</button>
+      </div>
+    </div>
+
+    <!-- Reminder Preferences -->
+    <div class="card">
+      <div class="card-title">
+        <span>🔔 Reminder Preferences</span>
+        <span class="tag neutral">Simulated</span>
+      </div>
+      <p style="font-size:0.82rem; color:var(--muted); margin:0 0 10px;">
+        Choose how you would like to receive gentle visit reminders before each scheduled contact.
+      </p>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px;">
+        <button class="btn sm ${S.remindersType === 'app' ? '' : 'alt'}" onclick="setReminderType('app')">📱 App Only</button>
+        <button class="btn sm ${S.remindersType === 'sms' ? '' : 'alt'}" onclick="setReminderType('sms')">✉️ SMS Only</button>
+        <button class="btn sm ${S.remindersType === 'both' ? '' : 'alt'}" onclick="setReminderType('both')">🔔 Both</button>
+      </div>
+
+      <div style="margin-top:10px; font-size:0.78rem; color:var(--muted);">
+        Active: <strong>${S.remindersType.toUpperCase()} reminders</strong>. Notifications are marked as simulated in this prototype.
+      </div>
+    </div>
+
+    <!-- 8 Contacts Timeline -->
+    <div class="card">
+      <div class="card-title">
+        <span>Timeline of 8 Antenatal Contacts</span>
+        <span class="tag green">${S.ancVisits.length} of 8 Attended</span>
+      </div>
+  `;
+
+  contacts.forEach(function(c, idx) {
+    var isAttended = S.ancVisits.indexOf(idx) > -1;
+    var isApproaching = (!isAttended && c.week >= currentWeek && c.week <= currentWeek + 3);
+    var isOverdue = (!isAttended && c.week < currentWeek);
+
+    var badgeHtml = '';
+    if (isAttended) badgeHtml = '<span class="tag green">✅ Completed</span>';
+    else if (isApproaching) badgeHtml = '<span class="tag amber">⏳ Approaching Soon</span>';
+    else if (isOverdue) badgeHtml = '<span class="tag red">⚠️ Overdue Contact</span>';
+    else badgeHtml = '<span class="tag neutral">Upcoming (Week ' + c.week + ')</span>';
+
+    html += `
+      <div style="padding:12px 0; border-top:1px solid var(--line); display:flex; gap:12px; align-items:flex-start;">
+        <input type="checkbox" style="width:20px; height:20px; margin-top:3px; accent-color:var(--brand);" 
+          ${isAttended ? 'checked' : ''} onchange="toggleAncVisit(${idx})">
+        <div style="flex:1;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
+            <div style="font-weight:700; font-size:0.92rem; color:var(--text);">
+              ${c.title}
+            </div>
+            ${badgeHtml}
+          </div>
+          <div style="font-size:0.82rem; color:var(--muted); margin-top:3px; line-height:1.4;">
+            ${c.focus}
+          </div>
+          ${isOverdue ? '<div style="font-size:0.76rem; color:var(--red); margin-top:4px; font-weight:600;">🌸 Gentle reminder: Please visit your health centre soon to receive this check. No blame, your health workers are here to help.</div>' : ''}
+        </div>
+      </div>
+    `;
+  });
+
+  html += `
+      <div class="notice-box" style="margin-top:14px;">
+        <span>ℹ️</span>
+        <div>Note: Antenatal schedules must follow local Ethiopian Ministry of Health clinical protocols. SMS and push notifications are simulated in this prototype.</div>
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+function promptChangeEdd() {
+  var newDate = prompt("Enter new Estimated Due Date (YYYY-MM-DD):", S.edd);
+  if (newDate && !isNaN(new Date(newDate).getTime())) {
+    S.edd = newDate;
+    saveState();
+    renderContent();
+  }
+}
+
+function setReminderType(type) {
+  S.remindersType = type;
+  saveState();
+  renderContent();
+}
+
+function toggleAncVisit(idx) {
+  var pos = S.ancVisits.indexOf(idx);
+  if (pos > -1) S.ancVisits.splice(pos, 1);
+  else S.ancVisits.push(idx);
+  saveState();
+  renderContent();
+}
+
+// 3. WEEKLY WHAT'S NORMAL, WHAT'S NOT GUIDE
+function renderWeeklyGuide(currentWeek) {
+  var tr = t();
+  var wk = S.guideWeek || currentWeek;
+  var tri = getTrimester(wk);
+
+  // Ethiopian cultural food size comparisons
+  var sizeComparisons = {
+    12: { size: "Size of an Ethiopian Plum (Lime)", length: "5.5 cm", weight: "14g", fruitSvg: "🍋" },
+    20: { size: "Size of an Ethiopian Mango", length: "25 cm", weight: "300g", fruitSvg: "🥭" },
+    24: { size: "Size of an Ethiopian Papaya", length: "30 cm", weight: "600g", fruitSvg: "🍈" },
+    28: { size: "Size of a Large Butternut Squash", length: "37 cm", weight: "1.0 kg", fruitSvg: "🥑" },
+    34: { size: "Size of a Ripe Cantaloupe / Melon", length: "45 cm", weight: "2.1 kg", fruitSvg: "🍈" },
+    38: { size: "Size of a Traditional Pumpkin (Duba)", length: "50 cm", weight: "3.2 kg", fruitSvg: "🎃" }
+  };
+  var comp = sizeComparisons[wk] || { size: "Rapidly Growing Baby", length: "~32 cm", weight: "~750g", fruitSvg: "👶" };
+
+  var weeklyDetails = {
+    12: {
+      normal: ["Morning sickness begins to ease", "Heartbeat can be detected with Doppler at clinic", "Urination frequency may still be high"],
+      notNormal: ["Vaginal bleeding or spotting", "Severe lower cramping or pelvic pressure", "Continuous vomiting with inability to keep water down"]
+    },
+    24: {
+      normal: ["Baby kicks and somersaults clearly felt", "Mild stretching sensations along the sides of the belly", "Healthy increase in appetite for teff injera and shiro"],
+      notNormal: ["Sharp persistent abdominal pain", "Sudden swelling of face, eyelids, or fingers", "Any fluid leakage from the vagina", "Severe continuous headache"]
+    },
+    38: {
+      normal: ["Practice tightenings (Braxton Hicks contractions)", "Frequent urge to urinate as baby's head settles down", "Pelvic pressure and mild backache"],
+      notNormal: ["Baby's movement significantly slows down or stops", "Waters breaking with green or foul-smelling fluid", "Heavy bleeding", "Constant intense abdominal pain"]
+    }
+  };
+  var details = weeklyDetails[wk] || weeklyDetails[24];
+
+  var html = `
+    <div class="screen-header">
+      <h2 class="screen-title">${tr.weeklyTitle}</h2>
+      <p class="screen-desc">${tr.weeklySub}</p>
+    </div>
+
+    <!-- Week Selector Slider / Stepper -->
+    <div class="card" style="padding:12px 16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <button class="btn sm alt" onclick="stepGuideWeek(-4)" style="width:auto;">◀ Earlier</button>
+        <div style="text-align:center;">
+          <div style="font-size:1.35rem; font-weight:800; color:var(--brand);">Week ${wk}</div>
+          <div style="font-size:0.75rem; color:var(--muted);">Trimester ${tri} of 3</div>
+        </div>
+        <button class="btn sm alt" onclick="stepGuideWeek(4)" style="width:auto;">Later ▶</button>
+      </div>
+    </div>
+
+    <!-- Weekly Milestone Card -->
+    <div class="card" style="position:relative; overflow:hidden;">
+      <div style="display:flex; gap:14px; align-items:center;">
+        <div style="width:64px; height:64px; border-radius:14px; background:var(--brand-soft); border:1px solid var(--brand-light); display:flex; align-items:center; justify-content:center; font-size:32px; flex-shrink:0;">
+          ${comp.fruitSvg}
+        </div>
+        <div>
+          <div class="tag" style="margin-bottom:4px;">Baby Development</div>
+          <div style="font-weight:700; font-size:1rem; color:var(--text);">${comp.size}</div>
+          <div style="font-size:0.78rem; color:var(--muted);">Est. Length: ${comp.length} · Est. Weight: ${comp.weight}</div>
+        </div>
+      </div>
+
+      <!-- Audio Narration Playback -->
+      <div class="audio-player-box">
+        <button class="btn sm ${S.audioPlaying ? 'red' : 'alt'}" style="width:auto;" onclick="toggleAudioGuide(${wk})">
+          ${S.audioPlaying ? '⏹️ Stop Audio' : '🔊 Play Audio Guide'}
+        </button>
+        <div class="audio-wave">
+          <div class="audio-bar ${S.audioPlaying ? 'playing' : ''}"></div>
+          <div class="audio-bar ${S.audioPlaying ? 'playing' : ''}"></div>
+          <div class="audio-bar ${S.audioPlaying ? 'playing' : ''}"></div>
+          <div class="audio-bar ${S.audioPlaying ? 'playing' : ''}"></div>
+          <div class="audio-bar ${S.audioPlaying ? 'playing' : ''}"></div>
+        </div>
+        <span style="font-size:0.75rem; color:var(--muted); flex:1; text-align:right;">
+          ${S.audioPlaying ? 'Playing narration…' : 'Audio guide available'}
+        </span>
+      </div>
+
+      <!-- What's Normal -->
+      <div style="margin-top:14px;">
+        <h4 style="margin:0 0 8px; color:var(--green); font-size:0.95rem; display:flex; align-items:center; gap:6px;">
+          <span>✅</span> What's Normal at Week ${wk}
+        </h4>
+        <ul style="margin:0; padding-left:20px; font-size:0.86rem; color:var(--text); line-height:1.45;">
+          ${details.normal.map(function(item) { return '<li>' + esc(item) + '</li>'; }).join('')}
+        </ul>
+      </div>
+
+      <!-- What's NOT Normal -->
+      <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--line);">
+        <h4 style="margin:0 0 8px; color:var(--red); font-size:0.95rem; display:flex; align-items:center; gap:6px;">
+          <span>⚠️</span> What's NOT Normal (Seek Care)
+        </h4>
+        <ul style="margin:0; padding-left:20px; font-size:0.86rem; color:var(--text); line-height:1.45;">
+          ${details.notNormal.map(function(item) { return '<li>' + esc(item) + '</li>'; }).join('')}
+        </ul>
+      </div>
+
+      <!-- Mandatory "Is this an emergency?" Button -->
+      <button class="btn red" style="margin-top:16px;" onclick="navTo('danger')">
+        ${tr.isEmergencyBtn}
+      </button>
+
+      <div class="clinical-badge" style="margin-top:10px;">
+        ${tr.reviewNotice}
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+function stepGuideWeek(delta) {
+  var current = S.guideWeek || 24;
+  var next = current + delta;
+  if (next < 12) next = 12;
+  if (next > 40) next = 40;
+  S.guideWeek = next;
+  renderContent();
+}
+
+function toggleAudioGuide(week) {
+  if (S.audioPlaying) {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    S.audioPlaying = false;
+    renderContent();
+    return;
+  }
+
+  S.audioPlaying = true;
+  renderContent();
+
+  var textToRead = "Week " + week + " of pregnancy. Your baby is growing healthy. Remember to eat iron-rich Ethiopian foods like teff injera, shiro, and dark greens. Feeling your baby move is a reassuring sign. If you notice severe bleeding, headache, fever, or reduced movement, seek urgent medical care immediately.";
+  
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(textToRead);
+    u.rate = 0.95;
+    u.onend = function() {
+      S.audioPlaying = false;
+      renderContent();
+    };
+    u.onerror = function() {
+      S.audioPlaying = false;
+      renderContent();
+    };
+    window.speechSynthesis.speak(u);
+  } else {
+    setTimeout(function() {
+      S.audioPlaying = false;
+      renderContent();
+    }, 4000);
+  }
+}
+
+// 4. EMERGENCY PLAN
+function renderEmergencyPlan() {
+  var tr = t();
+  var html = `
+    <div class="screen-header">
+      <h2 class="screen-title">${tr.emergencyTitle}</h2>
+      <p class="screen-desc">${tr.emergencySub}</p>
+    </div>
+
+    <!-- Offline Status Pill inside Emergency Plan -->
+    <div class="notice-box" style="background:var(--green-bg); color:var(--green); border-color:var(--green-border);">
+      <span>📶</span>
+      <div><strong>Offline Verified:</strong> This saved plan is stored safely in your phone's memory. It displays instantly even when mobile data or electricity is off.</div>
+    </div>
+
+    <!-- Saved Facilities & Contacts Form -->
+    <div class="card">
+      <div class="card-title">
+        <span>🏥 Delivery Health Facility</span>
+        <span class="tag neutral">Fictional Demo</span>
+      </div>
+
+      <label>Preferred Delivery Facility</label>
+      <input type="text" id="ep-fac" value="${esc(S.facility)}" onchange="updateEmergencyField('facility', this.value)">
+
+      <label>Facility Emergency Telephone</label>
+      <input type="tel" id="ep-facp" value="${esc(S.facilityPhone)}" onchange="updateEmergencyField('facilityPhone', this.value)">
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <a class="btn sm alt" href="tel:${esc(S.facilityPhone)}" style="flex:1;">📞 Test Call Clinic</a>
+        <a class="btn sm alt" target="_blank" rel="noopener" href="https://maps.google.com/?q=${encodeURIComponent(S.facility)}" style="flex:1;">🗺️ Facility Map</a>
+      </div>
+    </div>
+
+    <!-- Transport Option -->
+    <div class="card">
+      <div class="card-title">
+        <span>🚗 Transport Option</span>
+        <span class="tag neutral">Fictional Demo</span>
+      </div>
+
+      <label>Primary Transport Option & Driver</label>
+      <input type="text" id="ep-tr" value="${esc(S.transportOption)}" onchange="updateEmergencyField('transportOption', this.value)">
+
+      <label>Driver Phone Number</label>
+      <input type="tel" id="ep-trp" value="${esc(S.transportPhone)}" onchange="updateEmergencyField('transportPhone', this.value)">
+      <a class="btn sm alt" href="tel:${esc(S.transportPhone)}" style="margin-top:8px;">📞 Call Driver Abebe</a>
+    </div>
+
+    <!-- Birth Companion & Family -->
+    <div class="card">
+      <div class="card-title">
+        <span>🤝 Companion & Trusted Contact</span>
+      </div>
+
+      <label>Dedicated Birth Companion</label>
+      <input type="text" id="ep-comp" value="${esc(S.companionName)}" onchange="updateEmergencyField('companionName', this.value)">
+      <input type="tel" id="ep-compp" placeholder="Companion Phone" value="${esc(S.companionPhone)}" onchange="updateEmergencyField('companionPhone', this.value)">
+
+      <label>Trusted Family Contact (Husband / Mother / Sister)</label>
+      <input type="text" id="ep-fam" value="${esc(S.trustedFamilyName)}" onchange="updateEmergencyField('trustedFamilyName', this.value)">
+      <input type="tel" id="ep-famp" placeholder="Family Phone" value="${esc(S.trustedFamilyPhone)}" onchange="updateEmergencyField('trustedFamilyPhone', this.value)">
+
+      <label>Emergency Savings Put Aside</label>
+      <input type="text" id="ep-sav" value="${esc(S.emergencySavings)}" onchange="updateEmergencyField('emergencySavings', this.value)">
+
+      <button class="btn" style="margin-top:14px;" onclick="saveEmergencyPlanFeedback()">
+        💾 Save Emergency Plan
+      </button>
+
+      <div class="clinical-badge" style="margin-top:10px;">
+        Notice: Fictional facilities and numbers for demonstration. Live call requires standard mobile network.
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+function updateEmergencyField(field, val) {
+  S[field] = val;
+  saveState();
+}
+
+function saveEmergencyPlanFeedback() {
+  saveState();
+  alert("✅ Emergency Plan Saved! All contacts and transport details are stored on this device and remain accessible offline.");
+}
+
+// 5. BIRTH-PREPAREDNESS CHECKLIST
+function renderBirthChecklist(currentWeek) {
+  var tr = t();
+  var doneCount = S.checklist.filter(function(i) { return i.done; }).length;
+  var totalCount = S.checklist.length;
+  var pct = Math.round((doneCount / totalCount) * 100);
+
+  var html = `
+    <div class="screen-header">
+      <h2 class="screen-title">${tr.checklistTitle}</h2>
+      <p class="screen-desc">${tr.checklistSub}</p>
+    </div>
+  `;
+
+  // Week 28 Reminder Banner
+  if (currentWeek >= 28) {
+    html += `
+      <div class="card" style="background:var(--brand-soft); border-color:var(--brand-light);">
+        <div style="font-size:0.95rem; font-weight:700; color:var(--brand); margin-bottom:4px;">
+          ${tr.nudge28}
+        </div>
+        <div style="font-size:0.8rem; color:var(--muted);">
+          Current status: <strong>${doneCount} of ${totalCount} items prepared</strong> (${pct}%). Take it one item at a time.
+        </div>
+      </div>
+    `;
+  }
+
+  html += `
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-weight:700; font-size:0.95rem;">Checklist Progress</span>
+        <span class="tag ${pct === 100 ? 'green' : 'amber'}">${doneCount} / ${totalCount} Ready</span>
+      </div>
+
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" style="width:${pct}%;"></div>
+      </div>
+
+      <div style="margin-top:10px;">
+  `;
+
+  S.checklist.forEach(function(item, index) {
+    html += `
+      <div class="check-row ${item.done ? 'done' : ''}" onclick="toggleChecklistItem(${index})">
+        <input type="checkbox" ${item.done ? 'checked' : ''} onclick="event.stopPropagation(); toggleChecklistItem(${index});">
+        <span class="check-text">${esc(item.text)}</span>
+      </div>
+    `;
+  });
+
+  html += `
+      </div>
+
+      <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--line);">
+        <label>Add Custom Item to Checklist</label>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="new-checklist-item" placeholder="e.g., Warm socks, baby oil, thermos">
+          <button class="btn sm" style="width:auto; flex-shrink:0;" onclick="addCustomChecklistItem()">+ Add</button>
+        </div>
+      </div>
+
+      <div class="clinical-badge" style="margin-top:12px;">
+        Designed with supportive, judgment-free guidance. Ask your family companion to help gather these supplies.
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+function toggleChecklistItem(index) {
+  if (S.checklist[index]) {
+    S.checklist[index].done = !S.checklist[index].done;
+    saveState();
+    renderContent();
+  }
+}
+
+function addCustomChecklistItem() {
+  var input = document.getElementById("new-checklist-item");
+  if (input && input.value.trim()) {
+    S.checklist.push({
+      id: Date.now(),
+      text: input.value.trim(),
+      done: false
+    });
+    input.value = "";
+    saveState();
+    renderContent();
+  }
+}
+
+// 6 & 7. DAILY WELLBEING (NUTRITION & SUPPLEMENTS)
+function renderWellbeing() {
+  var tr = t();
+  var html = `
+    <div class="screen-header">
+      <h2 class="screen-title">${tr.wellbeingTitle}</h2>
+      <p class="screen-desc">${tr.wellbeingSub}</p>
+    </div>
+
+    <!-- Daily Iron and Folic Acid Supplement Tracker -->
+    <div class="card" style="border-top: 4px solid var(--brand);">
+      <div class="card-title">
+        <span>💊 Daily Iron & Folic Acid</span>
+        <span class="tag ${S.ironTakenToday ? 'green' : 'amber'}">
+          ${S.ironTakenToday ? 'Taken Today ✅' : 'Waiting for Dose'}
+        </span>
+      </div>
+
+      <p style="font-size:0.86rem; color:var(--text); margin:0 0 10px;">
+        Daily iron and folic acid prevent maternal anaemia, reduce tiredness, and ensure healthy blood flow to your baby.
+      </p>
+
+      <div style="display:flex; gap:10px; align-items:center; background:var(--bg); padding:12px; border-radius:12px; margin-bottom:12px;">
+        <div style="font-size:2rem;">🌟</div>
+        <div>
+          <div style="font-weight:700; font-size:0.95rem;">Streak: ${S.ironStreak} Days Logged</div>
+          <div style="font-size:0.78rem; color:var(--muted);">Consistency builds red blood cells for labor and delivery.</div>
+        </div>
+      </div>
+
+      <button class="btn ${S.ironTakenToday ? 'green' : ''}" onclick="toggleIronTaken()">
+        ${S.ironTakenToday ? '✅ Supplement Taken Today (Tap to undo)' : '💊 Mark Iron Tablet as Taken Today'}
+      </button>
+
+      <!-- Compassionate Missed Dose Guidance -->
+      <div style="margin-top:12px; padding:10px 12px; background:var(--brand-soft); border-radius:10px; font-size:0.8rem; color:var(--muted); line-height:1.4;">
+        🌸 <strong>If you missed yesterday's tablet:</strong> That is completely normal and okay. Do not worry. Simply take today's tablet when you are ready. <em>Never take double tablets to make up for a missed dose.</em>
+      </div>
+    </div>
+
+    <!-- Local Ethiopian Food Guidance -->
+    <div class="card">
+      <div class="card-title">
+        <span>🥣 Traditional Ethiopian Foods for Pregnancy</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:8px;">
+        <div style="background:var(--bg); padding:10px; border-radius:10px; border:1px solid var(--line);">
+          <div style="font-weight:700; font-size:0.86rem; color:var(--brand);">🌾 Teff Injera</div>
+          <div style="font-size:0.76rem; color:var(--muted); margin-top:2px;">Rich in easily digestible iron, calcium, and sustained carbohydrates.</div>
+        </div>
+
+        <div style="background:var(--bg); padding:10px; border-radius:10px; border:1px solid var(--line);">
+          <div style="font-weight:700; font-size:0.86rem; color:var(--brand);">🍲 Shiro & Misir (Lentils)</div>
+          <div style="font-size:0.76rem; color:var(--muted); margin-top:2px;">Wholesome plant proteins that nourish maternal tissues and muscle.</div>
+        </div>
+
+        <div style="background:var(--bg); padding:10px; border-radius:10px; border:1px solid var(--line);">
+          <div style="font-weight:700; font-size:0.86rem; color:var(--brand);">🥬 Gomen & Qosta (Greens)</div>
+          <div style="font-size:0.76rem; color:var(--muted); margin-top:2px;">Dark leafy greens packed with natural folate and micronutrients.</div>
+        </div>
+
+        <div style="background:var(--bg); padding:10px; border-radius:10px; border:1px solid var(--line);">
+          <div style="font-weight:700; font-size:0.86rem; color:var(--brand);">🍋 Citrus / Vitamin C</div>
+          <div style="font-size:0.76rem; color:var(--muted); margin-top:2px;">Lemon in water or oranges multiply iron absorbed from teff and beans.</div>
+        </div>
+      </div>
+
+      <!-- Traditional Buna (Coffee) Notice -->
+      <div style="margin-top:14px; padding:10px 12px; background:var(--amber-bg); border:1px solid var(--amber-border); border-radius:10px; font-size:0.8rem; color:var(--amber); line-height:1.4;">
+        ☕ <strong>Traditional Buna (Coffee) & Tea Advice:</strong> Coffee and tea contain tannins that block iron from entering your blood. Please wait at least <strong>1 to 2 hours</strong> after eating or taking iron before drinking Buna.
+      </div>
+    </div>
+
+    <!-- Fasting Period Clinical Guidance Box -->
+    <div class="card" style="border-left: 4px solid var(--amber);">
+      <div class="card-title">
+        <span>⛪ Fasting Guidance for Ethiopian Mothers</span>
+      </div>
+      <p style="font-size:0.82rem; color:var(--text); line-height:1.45; margin:0 0 10px;">
+        ${tr.fastingNotice}
+      </p>
+      <div class="clinical-badge" style="color:var(--amber); font-weight:600;">
+        ${tr.fastingDietWarning}
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+function toggleIronTaken() {
+  S.ironTakenToday = !S.ironTakenToday;
+  if (S.ironTakenToday) S.ironStreak++;
+  else if (S.ironStreak > 0) S.ironStreak--;
+  saveState();
+  renderContent();
+}
+
+// 8. TRUSTED INFORMATION AND ASK A MIDWIFE
+function renderMidwife() {
+  var tr = t();
+  var html = `
+    <div class="screen-header">
+      <h2 class="screen-title">Trusted Information & Ask a Midwife</h2>
+      <p class="screen-desc">Access clinically reviewed health articles and ask non-urgent questions.</p>
+    </div>
+
+    <!-- Articles with Reviewed Roles & Dates -->
+    <div class="card">
+      <div class="card-title">
+        <span>📚 Educational Articles</span>
+      </div>
+
+      <!-- Article 1: Reviewed -->
+      <details open>
+        <summary>Why 8 Antenatal Contacts Protect Mother & Baby</summary>
+        <div style="padding-top:8px; font-size:0.84rem; color:var(--text); line-height:1.45;">
+          The World Health Organization (WHO) and Ethiopian Ministry of Health recommend at least 8 contacts. Frequent checks allow early detection of high blood pressure (pre-eclampsia), anaemia, and position complications before they become dangerous.
+          <div class="clinical-badge" style="color:var(--green); font-weight:600; display:block; margin-top:6px;">
+            ✅ Reviewed by Sister Sara Mekonnen, BSc Midwifery · Review Date: 15 Nov 2026
+          </div>
+        </div>
+      </details>
+
+      <!-- Article 2: Reviewed -->
+      <details>
+        <summary>Preventing Maternal Anaemia with Ethiopian Foods</summary>
+        <div style="padding-top:8px; font-size:0.84rem; color:var(--text); line-height:1.45;">
+          Anaemia causes severe fatigue and heightens delivery bleeding risks. Combining teff injera, shiro, and gomen with lemon or tomato helps your body absorb vital non-heme iron.
+          <div class="clinical-badge" style="color:var(--green); font-weight:600; display:block; margin-top:6px;">
+            ✅ Reviewed by Dr. Hana Alemayehu, MD (Obs/Gyn) · Review Date: 02 Oct 2026
+          </div>
+        </div>
+      </details>
+
+      <!-- Article 3: Placeholder / Unreviewed -->
+      <details>
+        <summary>Gentle Exercise and Sleep Positions in the 3rd Trimester</summary>
+        <div style="padding-top:8px; font-size:0.84rem; color:var(--text); line-height:1.45;">
+          Sleeping on your left side optimizes blood flow through the inferior vena cava to the placenta and baby. Placing a soft pillow between your knees reduces pelvic strain.
+          <div class="clinical-badge" style="color:var(--amber); font-weight:600; display:block; margin-top:6px;">
+            ⚠️ Sample content — not yet clinically reviewed.
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Ask a Midwife Form -->
+    <div class="card">
+      <div class="card-title">
+        <span>👩‍⚕️ Ask a Midwife (Non-Urgent)</span>
+        <span class="tag neutral">Simulated Inbox</span>
+      </div>
+
+      <div class="notice-box" style="margin-bottom:10px;">
+        <span>ℹ️</span>
+        <div>This is not for emergencies. If you have bleeding, severe pain, or fever, call 907 immediately. Midwife responses are simulated in this prototype.</div>
+      </div>
+
+      <label>Type your pregnancy question:</label>
+      <textarea id="midwife-question-input" rows="3" placeholder="e.g., Is it safe to take paracetamol for mild muscle aches?"></textarea>
+
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button class="btn" style="flex:1;" onclick="submitMidwifeQuestion()">
+          ✉️ Send Question
+        </button>
+        <button class="btn alt" style="flex:1;" onclick="requestMidwifeCallback()">
+          📞 Request Call-Back
+        </button>
+      </div>
+
+      <div id="midwife-feedback" style="margin-top:10px;"></div>
+
+      <!-- Common Questions Accordion -->
+      <div style="margin-top:16px;">
+        <h4 style="margin:0 0 8px; font-size:0.9rem;">Frequently Asked Questions</h4>
+        
+        <details>
+          <summary>When should I attend my first check-up?</summary>
+          <div style="padding-top:6px; font-size:0.82rem; color:var(--muted);">
+            As soon as you suspect you are pregnant or miss your period (ideally before week 12) at your nearest health post or centre.
+          </div>
+        </details>
+
+        <details>
+          <summary>Is feeling mild lower back pain normal?</summary>
+          <div style="padding-top:6px; font-size:0.82rem; color:var(--muted);">
+            Yes, as your ligaments soften and your center of gravity shifts. Rest, supportive footwear, and warm compresses help. If pain is sharp or rhythmic, contact your clinic.
+          </div>
+        </details>
+
+        <details>
+          <summary>How many times should baby kick each day?</summary>
+          <div style="padding-top:6px; font-size:0.82rem; color:var(--muted);">
+            After 28 weeks, you should feel distinct movements throughout the day, especially after eating or resting. A sudden stop or drop in kicks requires immediate checkup.
+          </div>
+        </details>
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+function submitMidwifeQuestion() {
+  var input = document.getElementById("midwife-question-input");
+  var fb = document.getElementById("midwife-feedback");
+  if (!input || !input.value.trim()) {
+    alert("Please enter a question before sending.");
+    return;
+  }
+  var qText = input.value.trim();
+  S.submittedQuestions.unshift({ q: qText, date: new Date().toLocaleDateString() });
+  input.value = "";
+  if (fb) {
+    fb.innerHTML = '<div style="background:var(--green-bg); color:var(--green); padding:10px; border-radius:8px; font-size:0.82rem;">✅ Question saved to demo queue. (Simulated integration: No live clinician is connected).</div>';
+  }
+  saveState();
+}
+
+function requestMidwifeCallback() {
+  var fb = document.getElementById("midwife-feedback");
+  if (fb) {
+    fb.innerHTML = '<div style="background:var(--amber-bg); color:var(--amber); padding:10px; border-radius:8px; font-size:0.82rem;">📞 Call-back request received (Simulated). In the full deployment, a community midwife contacts you within 24 hours for non-urgent guidance.</div>';
+  }
+}
+
+// 9. DIGITAL PREGNANCY CARD
+function renderPregnancyCard(currentWeek) {
+  var tr = t();
+  var c = S.card;
+
+  var html = `
+    <div class="screen-header">
+      <h2 class="screen-title">${tr.cardTitle}</h2>
+      <p class="screen-desc">${tr.cardSub}</p>
+    </div>
+
+    <!-- Security Banner -->
+    <div class="notice-box">
+      <span>🔐</span>
+      <div>${tr.qrSecurityNotice}</div>
+    </div>
+
+    <!-- Digital Card Summary -->
+    <div class="card" style="border: 2px solid var(--brand-light);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+        <div>
+          <div class="tag">Maternal Health Record</div>
+          <h3 style="margin:4px 0 0; font-size:1.15rem; color:var(--brand);">${esc(c.motherName)}</h3>
+          <div style="font-size:0.8rem; color:var(--muted);">ID: <strong>ETH-M-014</strong> · Due: <strong>${esc(S.edd)}</strong></div>
+        </div>
+        <div style="text-align:right;">
+          <span class="tag green">Active Demo Card</span>
+        </div>
+      </div>
+
+      <!-- Editable Health Parameters -->
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:12px;">
+        <div>
+          <label>Blood Group & Rh</label>
+          <input type="text" value="${esc(c.bloodGroup)}" onchange="updateCardField('bloodGroup', this.value)">
+        </div>
+        <div>
+          <label>Hemoglobin (Hb)</label>
+          <input type="text" value="${esc(c.hbLevel)}" onchange="updateCardField('hbLevel', this.value)">
+        </div>
+      </div>
+
+      <!-- Tetanus TT Vaccines -->
+      <div style="margin-bottom:14px;">
+        <label>Tetanus Toxoid (TT) Vaccines</label>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:4px;">
+          ${[1, 2, 3, 4, 5].map(function(num, i) {
+            var done = c.ttDoses[i];
+            return '<button class="btn sm ' + (done ? 'green' : 'alt') + '" style="width:auto; margin:0;" onclick="toggleTtDose(' + i + ')">' +
+                   (done ? '✅ TT' + num : 'TT' + num) + '</button>';
+          }).join('')}
+        </div>
+      </div>
+
+      <!-- Visit Notes -->
+      <div style="margin-top:14px; padding-top:12px; border-top:1px solid var(--line);">
+        <div class="card-title">
+          <span>ANC Visit Notes</span>
+          <span style="font-size:0.75rem; color:var(--muted);">${c.visitLog.length} Records</span>
+        </div>
+
+        ${c.visitLog.map(function(v) {
+          return '<div style="padding:6px 0; border-bottom:1px solid var(--line); font-size:0.82rem;">' +
+                 '<div style="font-weight:700; color:var(--text);">' + v.date + ' (Week ' + v.week + ') · BP: ' + v.bp + ' · ' + v.weight + '</div>' +
+                 '<div style="color:var(--muted);">' + v.note + '</div>' +
+                 '</div>';
+        }).join('')}
+
+        <div style="margin-top:10px;">
+          <button class="btn sm alt" onclick="promptAddVisitLog()">+ Add Clinical Visit Note</button>
+        </div>
+      </div>
+
+      <!-- QR Code Preview Block -->
+      <div style="margin-top:18px; padding-top:14px; border-top:1px solid var(--line); text-align:center;">
+        <h4 style="margin:0 0 6px; font-size:0.95rem;">Official Clinic QR Scanner (Demo Only)</h4>
+        <div style="display:inline-block; padding:12px; background:#ffffff; border:1px solid var(--line); border-radius:12px; margin:8px auto;" id="qr-container">
+          <!-- QR rendered via pure SVG/JS -->
+        </div>
+        <div style="font-size:0.75rem; color:var(--muted); margin-top:4px;">
+          Payload: <code>ENAT-CARD-DEMO-M-014</code> (Zero personal health data in QR)
+        </div>
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+function updateCardField(k, v) {
+  S.card[k] = v;
+  saveState();
+}
+
+function toggleTtDose(index) {
+  S.card.ttDoses[index] = !S.card.ttDoses[index];
+  saveState();
+  renderContent();
+}
+
+function promptAddVisitLog() {
+  var note = prompt("Enter clinical visit note (BP, weight, advice):", "BP 112/74, fetal heart sound normal");
+  if (note) {
+    S.card.visitLog.push({
+      date: new Date().toISOString().slice(0, 10),
+      week: calcGestationalWeek(),
+      bp: "112/74",
+      weight: "58 kg",
+      note: note
+    });
+    saveState();
+    renderContent();
+  }
+}
+
+function drawQrCode() {
+  var el = document.getElementById("qr-container");
+  if (!el) return;
+
+  var demoPayload = "ENAT-CARD-DEMO-M-014";
+  
+  if (window.qrcode) {
+    try {
+      var qr = qrcode(0, 'M');
+      qr.addData(demoPayload);
+      qr.make();
+      el.innerHTML = qr.createSvgTag(4);
+      return;
+    } catch(e) {}
+  }
+
+  // Graceful pure SVG visual fallback
+  el.innerHTML = `
+    <svg width="120" height="120" viewBox="0 0 100 100" fill="black" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" fill="white"/>
+      <rect x="10" y="10" width="25" height="25" fill="#241815"/>
+      <rect x="15" y="15" width="15" height="15" fill="white"/>
+      <rect x="19" y="19" width="7" height="7" fill="#241815"/>
+      <rect x="65" y="10" width="25" height="25" fill="#241815"/>
+      <rect x="70" y="15" width="15" height="15" fill="white"/>
+      <rect x="74" y="19" width="7" height="7" fill="#241815"/>
+      <rect x="10" y="65" width="25" height="25" fill="#241815"/>
+      <rect x="15" y="70" width="15" height="15" fill="white"/>
+      <rect x="19" y="74" width="7" height="7" fill="#241815"/>
+      <rect x="45" y="15" width="10" height="10" fill="#241815"/>
+      <rect x="45" y="35" width="20" height="10" fill="#241815"/>
+      <rect x="15" y="45" width="20" height="10" fill="#241815"/>
+      <rect x="45" y="65" width="10" height="20" fill="#241815"/>
+      <rect x="65" y="65" width="20" height="20" fill="#241815"/>
+    </svg>
+  `;
+}
+
+// 10. FAMILY MODE
+function renderFamilyMode() {
+  var tr = t();
+  var f = S.family;
+
+  var html = `
+    <div class="screen-header">
+      <h2 class="screen-title">${tr.familyTitle}</h2>
+      <p class="screen-desc">${tr.familySub}</p>
+    </div>
+
+    <!-- Informed Consent Gate -->
+    <div class="card" style="border-top: 4px solid var(--brand);">
+      <div class="card-title">
+        <span>🔒 Required Consent</span>
+        <span class="tag ${f.consentGiven ? 'green' : 'red'}">${f.consentGiven ? 'Consent Granted' : 'Consent Required'}</span>
+      </div>
+
+      <div class="check-row" onclick="toggleFamilyConsent()">
+        <input type="checkbox" ${f.consentGiven ? 'checked' : ''} onclick="event.stopPropagation(); toggleFamilyConsent();">
+        <span class="check-text">
+          <strong>I give explicit consent</strong> to share selected pregnancy reminders, tips, and emergency alerts with my chosen supporter. I understand I can turn this off or change permissions anytime.
+        </span>
+      </div>
+    </div>
+
+    <!-- Supporter Contact Details -->
+    <div class="card">
+      <div class="card-title">
+        <span>👨‍👩‍👧 Chosen Supporter Contact</span>
+      </div>
+
+      <label>Supporter Name</label>
+      <input type="text" value="${esc(f.name)}" onchange="updateFamilyField('name', this.value)">
+
+      <label>Supporter Mobile Number</label>
+      <input type="tel" value="${esc(f.phone)}" onchange="updateFamilyField('phone', this.value)">
+
+      <label>Relationship</label>
+      <select onchange="updateFamilyField('relation', this.value)">
+        <option ${f.relation === 'Husband' ? 'selected' : ''}>Husband</option>
+        <option ${f.relation === 'Mother' ? 'selected' : ''}>Mother</option>
+        <option ${f.relation === 'Sister' ? 'selected' : ''}>Sister</option>
+        <option ${f.relation === 'Trusted Relative / Friend' ? 'selected' : ''}>Trusted Relative / Friend</option>
+      </select>
+
+      <!-- Granular Sharing Options -->
+      <div style="margin-top:14px; padding-top:10px; border-top:1px solid var(--line);">
+        <label>What would you like to share?</label>
+        
+        <div class="check-row" onclick="toggleFamilyShareItem('shareAnc')">
+          <input type="checkbox" ${f.shareAnc ? 'checked' : ''} onclick="event.stopPropagation(); toggleFamilyShareItem('shareAnc');">
+          <span class="check-text">🗓️ Antenatal Care (ANC) appointment reminders</span>
+        </div>
+
+        <div class="check-row" onclick="toggleFamilyShareItem('shareBirthPrep')">
+          <input type="checkbox" ${f.shareBirthPrep ? 'checked' : ''} onclick="event.stopPropagation(); toggleFamilyShareItem('shareBirthPrep');">
+          <span class="check-text">🎒 Birth-preparation reminders & hospital bag tips</span>
+        </div>
+
+        <div class="check-row" onclick="toggleFamilyShareItem('shareEmergency')">
+          <input type="checkbox" ${f.shareEmergency ? 'checked' : ''} onclick="event.stopPropagation(); toggleFamilyShareItem('shareEmergency');">
+          <span class="check-text">🚨 Emergency hospital alerts & urgent help notifications</span>
+        </div>
+      </div>
+
+      <button class="btn alt" style="color:var(--red); border-color:var(--red-border); margin-top:14px;" onclick="revokeAllFamilySharing()">
+        🛑 Turn Off All Family Sharing
+      </button>
+    </div>
+
+    <!-- Live Family SMS Previews -->
+    <div class="card">
+      <div class="card-title">
+        <span>💬 Message Previews for ${esc(f.name)}</span>
+        <span class="tag neutral">Simulated SMS</span>
+      </div>
+      <p style="font-size:0.8rem; color:var(--muted); margin:0 0 10px;">
+        Here is the exact preview of what your family member receives on their phone:
+      </p>
+
+      <!-- Preview 1: Emergency Alert -->
+      <div style="background:var(--red-bg); border:1px solid var(--red-border); border-radius:10px; padding:10px; margin-bottom:8px; font-size:0.82rem;">
+        <div style="font-weight:700; color:var(--red); margin-bottom:2px;">🚨 Emergency Alert Preview:</div>
+        <div style="color:var(--text);">"EMERGENCY from Almaz: I am experiencing a pregnancy danger sign and need to go to Wolkite Health Centre immediately. Please come or help arrange transport now. Sent via Enat."</div>
+      </div>
+
+      <!-- Preview 2: ANC Reminder -->
+      <div style="background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:10px; margin-bottom:8px; font-size:0.82rem;">
+        <div style="font-weight:700; color:var(--brand); margin-bottom:2px;">🗓️ Appointment Reminder Preview:</div>
+        <div style="color:var(--text);">"Enat Reminder: Almaz's next check-up (#3) is scheduled for week 26 at Wolkite Health Centre. Please support her to attend."</div>
+      </div>
+
+      <!-- Preview 3: Birth Prep Tip -->
+      <div style="background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:10px; font-size:0.82rem;">
+        <div style="font-weight:700; color:var(--muted); margin-bottom:2px;">🎒 Birth Prep Tip Preview:</div>
+        <div style="color:var(--text);">"Enat Family Tip: We are in the 3rd trimester! Let's ensure our emergency savings and hospital bag items are ready this week."</div>
+      </div>
+
+      <div class="clinical-badge" style="margin-top:10px;">
+        Messages are simulated in this prototype. No live carrier SMS is sent without real telecom gateway integration.
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+function toggleFamilyConsent() {
+  S.family.consentGiven = !S.family.consentGiven;
+  saveState();
+  renderContent();
+}
+
+function updateFamilyField(k, v) {
+  S.family[k] = v;
+  saveState();
+}
+
+function toggleFamilyShareItem(k) {
+  S.family[k] = !S.family[k];
+  saveState();
+  renderContent();
+}
+
+function revokeAllFamilySharing() {
+  S.family.consentGiven = false;
+  S.family.shareAnc = false;
+  S.family.shareBirthPrep = false;
+  S.family.shareEmergency = false;
+  saveState();
+  alert("All family sharing has been revoked.");
+  renderContent();
+}
+
+// 11. VOICE AGENT ("TALK TO ENAT")
+function renderVoiceAgent() {
+  var tr = t();
+
+  var html = `
+    <div class="screen-header">
+      <h2 class="screen-title">${tr.voiceTitle}</h2>
+      <p class="screen-desc">${tr.voiceSub}</p>
+    </div>
+
+    <!-- Voice Consent & Permission -->
+    <div class="card">
+      <div class="card-title">
+        <span>🎙️ Voice Input & Privacy Permission</span>
+      </div>
+      
+      <div class="check-row" onclick="toggleVoiceConsent()">
+        <input type="checkbox" ${S.voiceConsent ? 'checked' : ''} onclick="event.stopPropagation(); toggleVoiceConsent();">
+        <span class="check-text">
+          I allow Enat to listen and transcribe my voice. Audio is processed locally on this device and is never stored or shared without consent.
+        </span>
+      </div>
+
+      <!-- Voice Recording / Mic Controls -->
+      <div style="text-align:center; padding:16px 0;">
+        ${S.voiceRecording ? `
+          <div class="voice-rec-box">
+            <div class="voice-wave">
+              <div class="voice-wave-bar"></div>
+              <div class="voice-wave-bar"></div>
+              <div class="voice-wave-bar"></div>
+              <div class="voice-wave-bar"></div>
+              <div class="voice-wave-bar"></div>
+            </div>
+            <div style="font-weight:700; color:var(--red); margin-bottom:8px;">● Listening… Speak your concern or question</div>
+            <div style="display:flex; gap:8px; justify-content:center;">
+              <button class="btn sm red" style="width:auto;" onclick="stopVoiceRecording()">⏹️ Stop & Review</button>
+              <button class="btn sm alt" style="width:auto;" onclick="cancelVoiceRecording()">❌ Cancel</button>
+            </div>
+          </div>
+        ` : `
+          <button class="btn" style="padding:16px; font-size:1.1rem; border-radius:16px;" onclick="startVoiceRecording()">
+            🎙️ Talk to Enat
+          </button>
+        `}
+      </div>
+
+      <!-- Review / Correct Transcription Box -->
+      <label>Review and correct your question before submitting:</label>
+      <textarea id="voice-transcript-text" rows="3" placeholder="Speak above, or type your question here directly…">${esc(S.voiceText)}</textarea>
+
+      <button class="btn" onclick="submitVoiceQuestion()">
+        🔍 Ask Enat & Analyze
+      </button>
+
+      <!-- Pre-Configured Demo Prompts (One-Click Testing) -->
+      <div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--line);">
+        <label>Or test with sample questions (Tap to test triage):</label>
+        <div style="display:flex; flex-direction:column; gap:6px; margin-top:4px;">
+          <button class="btn sm alt" style="text-align:left; justify-content:flex-start; color:var(--red); border-color:var(--red-border);" 
+            onclick="setVoiceDemoPrompt('I have severe vaginal bleeding and dizziness')">
+            🚨 "I have severe vaginal bleeding and dizziness" (Urgent danger sign test)
+          </button>
+          
+          <button class="btn sm alt" style="text-align:left; justify-content:flex-start;" 
+            onclick="setVoiceDemoPrompt('When is my next check-up appointment?')">
+            🗓️ "When is my next check-up appointment?" (ANC reminder test)
+          </button>
+
+          <button class="btn sm alt" style="text-align:left; justify-content:flex-start;" 
+            onclick="setVoiceDemoPrompt('What items should I pack in my birth bag?')">
+            🎒 "What items should I pack in my birth bag?" (Birth plan test)
+          </button>
+
+          <button class="btn sm alt" style="text-align:left; justify-content:flex-start;" 
+            onclick="setVoiceDemoPrompt('Can I eat teff and shiro while fasting?')">
+            🥣 "Can I eat teff and shiro while fasting?" (Nutrition test)
+          </button>
+
+          <button class="btn sm alt" style="text-align:left; justify-content:flex-start;" 
+            onclick="setVoiceDemoPrompt('Can I take traditional herbs for mild tiredness?')">
+            ❓ "Can I take traditional herbs for mild tiredness?" (Unreviewed clinical test)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Voice Agent Response Card -->
+    ${S.voiceResponse ? `
+      <div class="card" style="border-top: 4px solid ${S.voiceResponse.isUrgent ? 'var(--red)' : 'var(--brand)'};">
+        <div class="card-title">
+          <span>Enat's Triaged Guidance</span>
+          <span class="tag ${S.voiceResponse.isUrgent ? 'red' : 'green'}">${esc(S.voiceResponse.category)}</span>
+        </div>
+
+        <h4 style="margin:4px 0 8px; color:${S.voiceResponse.isUrgent ? 'var(--red)' : 'var(--text)'}; font-size:1.05rem;">
+          ${esc(S.voiceResponse.title)}
+        </h4>
+
+        <div style="font-size:0.88rem; line-height:1.45; color:var(--text); margin-bottom:12px;">
+          ${S.voiceResponse.response}
+        </div>
+
+        ${S.voiceResponse.isUrgent ? `
+          <a class="btn red" href="tel:907">📞 Call Emergency Ambulance (907)</a>
+          <button class="btn alt" style="margin-top:8px;" onclick="navTo('danger')">🚨 Open Urgent Care Screen</button>
+        ` : `
+          <div style="display:flex; gap:8px;">
+            <button class="btn sm alt" onclick="readVoiceResponse()">🔊 Read Aloud</button>
+            <button class="btn sm alt" onclick="navTo('midwife')">👩‍⚕️ Request Midwife Call-back</button>
+          </div>
+        `}
+      </div>
+    ` : ''}
+  `;
+
+  return html;
+}
+
+function toggleVoiceConsent() {
+  S.voiceConsent = !S.voiceConsent;
+  saveState();
+  renderContent();
+}
+
+function setVoiceDemoPrompt(text) {
+  S.voiceText = text;
+  var ta = document.getElementById("voice-transcript-text");
+  if (ta) ta.value = text;
+  submitVoiceQuestion();
+}
+
+function startVoiceRecording() {
+  if (!S.voiceConsent) {
+    alert("Please check the permission box to allow speech transcription.");
+    return;
+  }
+
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    alert("Speech recognition is not supported on this browser. You can type directly or tap any of the demo prompts below.");
+    return;
+  }
+
+  try {
+    var rec = new SR();
+    rec.lang = (S.lang === "am") ? "am-ET" : (S.lang === "om") ? "om-ET" : "en-GB";
+    rec.interimResults = true;
+    rec.onresult = function(e) {
+      var transcript = Array.from(e.results).map(function(r) { return r[0].transcript; }).join("");
+      S.voiceText = transcript;
+      var ta = document.getElementById("voice-transcript-text");
+      if (ta) ta.value = transcript;
+    };
+    rec.onend = function() {
+      S.voiceRecording = false;
+      renderContent();
+    };
+    rec.onerror = function() {
+      S.voiceRecording = false;
+      renderContent();
+    };
+    rec.start();
+    S.voiceRecording = true;
+    renderContent();
+  } catch(e) {
+    S.voiceRecording = false;
+    alert("Could not start microphone. Please type or use sample prompt buttons.");
+    renderContent();
+  }
+}
+
+function stopVoiceRecording() {
+  S.voiceRecording = false;
+  renderContent();
+}
+
+function cancelVoiceRecording() {
+  S.voiceRecording = false;
+  S.voiceText = "";
+  renderContent();
+}
+
+function submitVoiceQuestion() {
+  var ta = document.getElementById("voice-transcript-text");
+  var query = (ta ? ta.value : S.voiceText || "").trim();
+  if (!query) {
+    alert("Please speak or type your question first.");
+    return;
+  }
+
+  S.voiceText = query;
+  var qLower = query.toLowerCase();
+
+  // CLASSIFICATION ENGINE
+  // 1. Danger signs check
+  var dangerKeywords = ["bleed", "blood", "headache", "vision", "blur", "fever", "chill", "pain", "cramp", "convuls", "fit", "faint", "leak", "water", "movement", "kick", "ደም", "ራስ ምታት", "ትኩሳት", "ሆድ", "መንቀጥቀጥ", "ውሃ", "እንቅስቃሴ", "dhiig", "mataa", "ho'a", "garaa", "bishaan", "socho"];
+  var hasDanger = dangerKeywords.some(function(k) { return qLower.indexOf(k) > -1; });
+
+  if (hasDanger) {
+    // CRITICAL: Immediately switch to Urgent Medical Care screen!
+    S.voiceResponse = {
+      category: "🚨 URGENT DANGER SIGN DETECTED",
+      title: "Potential Emergency Detected",
+      response: "Enat detected mention of a potential danger sign ('" + esc(query) + "'). Please do not wait for conversational text. Seek urgent medical attention immediately.",
+      isUrgent: true
+    };
+    S.dangerUrgentTriggered = true;
+    S.urgentReason = "Reported Concern: " + query;
+    navTo('danger');
+    return;
+  }
+
+  // 2. ANC Schedule check
+  if (qLower.indexOf("check-up") > -1 || qLower.indexOf("anc") > -1 || qLower.indexOf("appointment") > -1 || qLower.indexOf("schedule") > -1 || qLower.indexOf("ክትትል") > -1 || qLower.indexOf("hordoffii") > -1) {
+    S.voiceResponse = {
+      category: "🗓️ ANC Reminder Guidance",
+      title: "Your Antenatal Care Schedule",
+      response: "According to your estimated due date (" + esc(S.edd) + "), you are in Week " + calcGestationalWeek() + ". Your next WHO contact is Contact #" + (S.ancVisits.length + 1) + ". Please bring your maternal card, urine sample if requested, and note down any questions.",
+      isUrgent: false
+    };
+  }
+  // 3. Birth plan check
+  else if (qLower.indexOf("pack") > -1 || qLower.indexOf("bag") > -1 || qLower.indexOf("birth") > -1 || qLower.indexOf("deliver") > -1 || qLower.indexOf("ቦርሳ") > -1 || qLower.indexOf("መውለድ") > -1 || qLower.indexOf("da'umsa") > -1) {
+    S.voiceResponse = {
+      category: "🎒 Birth Plan Guidance",
+      title: "Getting Ready for Birth",
+      response: "For your hospital bag, pack clean baby clothing, a warm wrap/blanket, maternal sanitary pads, soap, clean towel, and your Kebele ID & antenatal booklet. Your saved facility is " + esc(S.facility) + " and transport contact is " + esc(S.transportOption) + ".",
+      isUrgent: false
+    };
+  }
+  // 4. Nutrition check
+  else if (qLower.indexOf("eat") > -1 || qLower.indexOf("food") > -1 || qLower.indexOf("teff") > -1 || qLower.indexOf("shiro") > -1 || qLower.indexOf("fasting") > -1 || qLower.indexOf("ጾም") > -1 || qLower.indexOf("ምግብ") > -1 || qLower.indexOf("nyaata") > -1 || qLower.indexOf("sooma") > -1) {
+    S.voiceResponse = {
+      category: "🥣 Nutrition & Supplement Guidance",
+      title: "Reviewed Ethiopian Nutrition Advice",
+      response: "Teff injera, shiro, red lentils, and dark leafy greens (gomen) provide rich natural iron. Remember to pair with lemon or oranges for vitamin C. In Ethiopian traditions, pregnant mothers are granted fasting exemptions. Keep coffee (buna) at least 1-2 hours away from meals.",
+      isUrgent: false
+    };
+  }
+  // 5. Unreviewed / Other
+  else {
+    S.voiceResponse = {
+      category: "❓ Non-Reviewed Query",
+      title: "Clinical Safety Boundary Notice",
+      response: "Enat provides guidance only from verified and clinically reviewed maternal content. No reviewed answer is currently available for this specific question. Enat cannot diagnose, prescribe medication, or replace a doctor or midwife. Please contact your local health centre or submit a call-back request to your midwife.",
+      isUrgent: false
+    };
+  }
+
+  saveState();
+  renderContent();
+}
+
+function readVoiceResponse() {
+  if (S.voiceResponse && S.voiceResponse.response && window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(S.voiceResponse.response);
+    window.speechSynthesis.speak(u);
+  }
+}
+
+// 12. RURAL ACCESS (OFFLINE & USSD SIMULATION)
+function renderRuralAccess() {
+  var mText = {
+    "main": "Welcome to Enat USSD (*907#)\n1. Next ANC reminder\n2. Danger-sign information\n3. Birth plan\n4. Saved contact\nReply with option:",
+    "1": "Enat ANC:\nNext Contact #" + (S.ancVisits.length + 1) + " is due soon at " + esc(S.facility) + ". Remember to bring your maternal card.",
+    "2": "Enat DANGER:\nBleeding, severe headache, vision blur, fever, belly pain, convulsions, leaking water, less baby movement. Go to hospital now!",
+    "3": "Enat Birth Plan:\nFacility: " + esc(S.facility) + "\nTransport: " + esc(S.transportOption) + " (" + esc(S.transportPhone) + ")\nCompanion: " + esc(S.companionName),
+    "4": "Enat Contacts:\nFacility: " + esc(S.facilityPhone) + "\nAmbulance: 907\nFamily: " + esc(S.trustedFamilyPhone)
+  };
+
+  var html = `
+    <div class="screen-header">
+      <h2 class="screen-title">Rural Access: Offline & USSD Demo</h2>
+      <p class="screen-desc">Access maternal health tools in remote areas without internet or smartphones.</p>
+    </div>
+
+    <!-- Offline Architecture Explainer -->
+    <div class="card" style="border-left: 4px solid var(--green);">
+      <div class="card-title">
+        <span>📶 Rural Offline Architecture</span>
+        <span class="tag green">Verified Offline</span>
+      </div>
+      <p style="font-size:0.84rem; color:var(--text); line-height:1.45; margin:0 0 8px;">
+        All core maternal modules—symptom checking, emergency contacts, gestational guide, checklist, and offline pregnancy card—are cached directly in this browser. They function 100% reliably in remote rural kebeles without cellular data.
+      </p>
+      <button class="btn sm alt" onclick="toggleOfflineSim()">
+        ${S.offlineSimulated ? '🟢 Disable Simulated Offline Mode' : '🟠 Test Simulated Offline Mode Now'}
+      </button>
+    </div>
+
+    <!-- USSD Basic Phone Interactive Simulator -->
+    <div class="card">
+      <div class="card-title">
+        <span>📟 Simulated USSD (*907#) for 2G Basic Phones</span>
+        <span class="tag neutral">Simulation</span>
+      </div>
+      <p style="font-size:0.8rem; color:var(--muted); margin:0 0 10px;">
+        For mothers with basic button phones, vital maternal care is accessible via USSD short codes:
+      </p>
+
+      <div class="ussd-phone">
+        <div class="ussd-screen" id="ussd-display">
+${mText[S.ussdScreen] || mText["main"]}
+        </div>
+
+        <div class="ussd-keypad">
+          <button class="ussd-key" onclick="pressUssdKey('1')">1. Next ANC</button>
+          <button class="ussd-key" onclick="pressUssdKey('2')">2. Danger Signs</button>
+          <button class="ussd-key" onclick="pressUssdKey('3')">3. Birth Plan</button>
+          <button class="ussd-key" onclick="pressUssdKey('4')">4. Contacts</button>
+          <button class="ussd-key" onclick="pressUssdKey('main')">↩ Main Menu</button>
+          <button class="ussd-key" style="background:#b91c1c;" onclick="pressUssdKey('main')">✕ Clear</button>
+        </div>
+      </div>
+
+      <div class="clinical-badge">
+        Simulated USSD/SMS interface. No live telecommunications carrier is connected.
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+function pressUssdKey(key) {
+  S.ussdScreen = key;
+  renderContent();
+}
+
+// 13. HEALTH WORKER DASHBOARD
+function renderHealthWorkerDashboard() {
+  var html = `
+    <div class="screen-header">
+      <h2 class="screen-title">Community Health Worker Dashboard</h2>
+      <p class="screen-desc">Cohort tracking for Health Extension Workers (HEWs) in local Ethiopian kebeles.</p>
+    </div>
+
+    <div class="notice-box">
+      <span>👥</span>
+      <div>Fictional demonstration records for Community Health Extension Workers. Protects patient confidentiality.</div>
+    </div>
+
+    <!-- Cohort Summary Stats -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-bottom:14px;">
+      <div class="card" style="padding:10px; text-align:center; margin:0;">
+        <div style="font-size:1.4rem; font-weight:800; color:var(--brand);">${S.hwMothers.length}</div>
+        <div style="font-size:0.75rem; color:var(--muted);">Registered Mothers</div>
+      </div>
+
+      <div class="card" style="padding:10px; text-align:center; margin:0; border-color:var(--red-border);">
+        <div style="font-size:1.4rem; font-weight:800; color:var(--red);">2</div>
+        <div style="font-size:0.75rem; color:var(--red);">Missed Contacts</div>
+      </div>
+
+      <div class="card" style="padding:10px; text-align:center; margin:0; border-color:var(--green-border);">
+        <div style="font-size:1.4rem; font-weight:800; color:var(--green);">3</div>
+        <div style="font-size:0.75rem; color:var(--green);">On Track</div>
+      </div>
+    </div>
+
+    <!-- Mothers List -->
+    <div class="card">
+      <div class="card-title">
+        <span>Assigned Mothers (Kebele Cohort)</span>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="hw-table">
+          <thead>
+            <tr>
+              <th>ID & Name</th>
+              <th>Week / EDD</th>
+              <th>Next Contact</th>
+              <th>Status</th>
+              <th>Action Needed</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+  `;
+
+  S.hwMothers.forEach(function(m, i) {
+    var isMissed = m.missed > 0;
+    html += `
+      <tr>
+        <td><strong>${m.id}</strong><br>${m.name}</td>
+        <td>Wk ${m.week}<br><span style="color:var(--muted); font-size:0.72rem;">${m.edd}</span></td>
+        <td>Contact #${m.nextAnc}<br><span style="color:var(--muted); font-size:0.72rem;">(Wk ${m.ancWeek})</span></td>
+        <td>
+          <span class="tag ${isMissed ? 'red' : 'green'}">${m.status}</span>
+        </td>
+        <td style="font-size:0.76rem; color:var(--muted);">${m.followUp}</td>
+        <td>
+          <button class="btn sm alt" style="padding:4px 8px;" onclick="simulateHwAction('${m.name}')">
+            📞 Log Visit
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+
+  html += `
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+function simulateHwAction(name) {
+  alert("Log Community Health Visit for " + name + ":\n\nHome visit notes and simulated SMS reminder queued. (Fictional demo record).");
+}
+
+// 14. CLINICIAN DASHBOARD
+function renderClinicianDashboard() {
+  return `
+    <div class="screen-header">
+      <h2 class="screen-title">Clinician Portal (Doctor / Midwife)</h2>
+      <p class="screen-desc">Clinical oversight and referral notes for health centre staff.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>👨‍⚕️ Clinical Review & Content Approval</span>
+      </div>
+      <p style="font-size:0.84rem; color:var(--muted);">
+        All health content in Enat must be verified by licensed Ethiopian midwives or doctors before deployment.
+      </p>
+
+      <div style="padding:8px 0; border-top:1px solid var(--line);">
+        <div style="display:flex; justify-content:space-between;">
+          <strong>Why 8 Check-ups Save Lives</strong>
+          <span class="tag green">Reviewed</span>
+        </div>
+        <div style="font-size:0.75rem; color:var(--muted);">Reviewer: Sister Sara (Midwife) · 15 Nov 2026</div>
+      </div>
+
+      <div style="padding:8px 0; border-top:1px solid var(--line);">
+        <div style="display:flex; justify-content:space-between;">
+          <strong>Preventing Anaemia with Local Teff</strong>
+          <span class="tag green">Reviewed</span>
+        </div>
+        <div style="font-size:0.75rem; color:var(--muted);">Reviewer: Dr. Hana (Obs/Gyn) · 02 Oct 2026</div>
+      </div>
+
+      <div style="padding:8px 0; border-top:1px solid var(--line);">
+        <div style="display:flex; justify-content:space-between;">
+          <strong>Third Trimester Rest & Exercise</strong>
+          <span class="tag amber">Pending Local Review</span>
+        </div>
+        <div style="font-size:0.75rem; color:var(--muted);">Awaiting secondary clinical sign-off</div>
+      </div>
+    </div>
+  `;
+}
+
+// 0. HOME DASHBOARD
+function renderHomeDashboard(currentWeek) {
+  var tr = t();
+  var tri = getTrimester(currentWeek);
+
+  var html = `
+    <!-- Welcome & Gestational Badge -->
+    <div class="card" style="background: linear-gradient(135deg, var(--card), var(--brand-soft)); border-color:var(--brand-light);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div>
+          <span class="tag">Active Pregnancy</span>
+          <h2 style="font-size:1.6rem; font-weight:800; color:var(--brand); margin:6px 0 2px;">
+            Week ${currentWeek}
+          </h2>
+          <div style="font-size:0.85rem; color:var(--muted);">
+            Trimester ${tri} · Due around <strong>${esc(S.edd)}</strong>
+          </div>
+        </div>
+        <div style="font-size:2.8rem;">🌸</div>
+      </div>
+
+      <div class="progress-bar-wrap" style="margin:14px 0 8px;">
+        <div class="progress-bar-fill" style="width:${(currentWeek / 40) * 100}%;"></div>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:0.74rem; color:var(--muted);">
+        <span>Week 1</span>
+        <span>Week 20 (Halfway)</span>
+        <span>Week 40 (Birth)</span>
+      </div>
+    </div>
+
+    <!-- Quick Urgent Action Callout -->
+    <div class="card" style="border: 2px solid var(--red-border); background: var(--red-bg);">
+      <div style="display:flex; gap:12px; align-items:center;">
+        <span style="font-size:1.8rem;">🚨</span>
+        <div style="flex:1;">
+          <div style="font-weight:700; color:var(--red); font-size:0.95rem;">Feeling unwell or worried?</div>
+          <div style="font-size:0.8rem; color:var(--red);">Check for 7 dangerous pregnancy symptoms immediately.</div>
+        </div>
+        <button class="btn sm red" style="width:auto; margin:0;" onclick="navTo('danger')">Check Now</button>
+      </div>
+    </div>
+
+    <!-- Today's Quick Actions Grid -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:14px;">
+      <div class="card" style="margin:0; padding:12px; cursor:pointer;" onclick="navTo('anc')">
+        <div style="font-size:1.5rem; margin-bottom:4px;">🗓️</div>
+        <div style="font-weight:700; font-size:0.88rem;">Next Check-Up</div>
+        <div style="font-size:0.75rem; color:var(--muted);">Contact #${S.ancVisits.length + 1} at health centre</div>
+      </div>
+
+      <div class="card" style="margin:0; padding:12px; cursor:pointer;" onclick="navTo('weekly')">
+        <div style="font-size:1.5rem; margin-bottom:4px;">📖</div>
+        <div style="font-weight:700; font-size:0.88rem;">Week ${currentWeek} Guide</div>
+        <div style="font-size:0.75rem; color:var(--muted);">See baby size & listen audio</div>
+      </div>
+
+      <div class="card" style="margin:0; padding:12px; cursor:pointer;" onclick="navTo('wellbeing')">
+        <div style="font-size:1.5rem; margin-bottom:4px;">💊</div>
+        <div style="font-weight:700; font-size:0.88rem;">Iron & Folic Acid</div>
+        <div style="font-size:0.75rem; color:var(--muted);">${S.ironTakenToday ? 'Taken today ✅' : 'Tap to take tablet'}</div>
+      </div>
+
+      <div class="card" style="margin:0; padding:12px; cursor:pointer;" onclick="navTo('voice')">
+        <div style="font-size:1.5rem; margin-bottom:4px;">🎙️</div>
+        <div style="font-weight:700; font-size:0.88rem;">Talk to Enat</div>
+        <div style="font-size:0.75rem; color:var(--muted);">Speak your question</div>
+      </div>
+    </div>
+
+    <!-- Emergency Plan Quick Banner -->
+    <div class="card" style="padding:12px 14px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-weight:700; font-size:0.9rem;">🚑 Emergency Plan Ready</div>
+          <div style="font-size:0.78rem; color:var(--muted);">Facility: ${esc(S.facility)} · Driver: ${esc(S.transportOption)}</div>
+        </div>
+        <button class="btn sm alt" onclick="navTo('emergency')">View Plan</button>
+      </div>
+    </div>
+
+    <div class="notice-box">
+      <span>ℹ️</span>
+      <div>Enat is an educational maternal companion, not a clinical diagnostic tool. Always consult a health worker if you have concerns.</div>
+    </div>
+  `;
+
+  return html;
+}
+
+// ==========================================
+// GUIDED TOUR HELPER (11 STEPS)
+// ==========================================
+function openTour() {
+  document.getElementById("tour-modal").classList.add("open");
+}
+
+function closeTour(e) {
+  if (e && e.target !== document.getElementById("tour-modal") && !e.target.classList.contains("btn")) return;
+  document.getElementById("tour-modal").classList.remove("open");
+}
+
+function runTourStep(step) {
+  document.getElementById("tour-modal").classList.remove("open");
+
+  switch(step) {
+    case 1:
+      // Step 1: Language & Due Date
+      setLang(S.lang === "en" ? "am" : "en");
+      navTo('anc');
+      alert("Demo Step 1: Language switched & Care Schedule opened. You can edit the due date to recalculate the 8 WHO contacts.");
+      break;
+    case 2:
+      // Step 2: View ANC contact timeline
+      navTo('anc');
+      break;
+    case 3:
+      // Step 3: Weekly guide & Audio
+      navTo('weekly');
+      setTimeout(function() { toggleAudioGuide(S.guideWeek || 24); }, 400);
+      break;
+    case 4:
+      // Step 4: Danger Sign - Yes to Bleeding
+      navTo('danger');
+      setTimeout(function() { answerDangerQuestion('bleeding', true); }, 400);
+      break;
+    case 5:
+      // Step 5: Emergency Plan & Checklist
+      navTo('emergency');
+      break;
+    case 6:
+      // Step 6: Simulate offline mode
+      if (!S.offlineSimulated) toggleOfflineSim();
+      navTo('emergency');
+      alert("Demo Step 6: Simulated Offline Mode is ON. Notice how all saved emergency details, numbers, and plans open smoothly without internet.");
+      break;
+    case 7:
+      // Step 7: Supplement reminder taken
+      navTo('wellbeing');
+      S.ironTakenToday = true;
+      saveState();
+      renderContent();
+      alert("Demo Step 7: Daily iron tablet marked as taken!");
+      break;
+    case 8:
+      // Step 8: Sample article & Ask Midwife
+      navTo('midwife');
+      break;
+    case 9:
+      // Step 9: Pregnancy Card & QR
+      navTo('card');
+      break;
+    case 10:
+      // Step 10: Family Mode & Preview
+      navTo('family');
+      break;
+    case 11:
+      // Step 11: Talk to Enat Voice Agent
+      navTo('voice');
+      setVoiceDemoPrompt("I have severe vaginal bleeding and dizziness");
+      break;
+  }
+}
+
+// --- INITIALIZATION ---
+loadState();
+setLang(S.lang || "en");
+</script>
+</body>
+</html>
